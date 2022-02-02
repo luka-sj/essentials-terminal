@@ -13,6 +13,8 @@ The provided `.bat` and `.sh` files are just there as easily runnable instances 
 
 To use this application, you need to have Ruby (at least 3.0.0) installed on your local machine.
 
+Using the `cd` command, navigate to a directory containing your Essentials project and run the command `essentials load`.
+
 ### Terminal Commands
 
 This terminal is not actually running of your local CLI instance, but instead is wrapped in a Ruby layer to handle all the logic.
