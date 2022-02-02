@@ -22,7 +22,7 @@ module Console
   #-----------------------------------------------------------------------------
   def self.setup
     echo    '============================================', :brown
-    echo_h1 'Essentials Console', false
+    echo_h1 'Essentials Terminal', false
     echo    '============================================', :brown
     echo_p  ''
     self.version
