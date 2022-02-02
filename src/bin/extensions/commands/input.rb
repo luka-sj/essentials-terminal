@@ -27,11 +27,11 @@ module Commands
         index -= 1 if index > 0
         # set output and flush console
         ret = history[index]
-        Console.flush
+        Console.flush(1)
         Console.pointer
         Console.echo(ret)
         # return output and index
-        return ret, index
+        return ret, '', index
       end
       #-------------------------------------------------------------------------
       #  go down in history and select command
@@ -43,11 +43,11 @@ module Commands
         index += 1 if index < history.count
         # set output and flush console
         ret = history[index]
-        Console.flush
+        Console.flush(1)
         Console.pointer
         Console.echo(ret)
         # return output and index
-        return ret, index
+        return ret, '', index
       end
       #-------------------------------------------------------------------------
       #  move console cursor to the left

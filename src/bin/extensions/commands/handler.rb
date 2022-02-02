@@ -24,9 +24,9 @@ module Commands
         when :enter
           return Commands::Input.return(input, input_end, @@command_history, history_index)
         when :up
-          input, history_index = Commands::Input.command_history_up(@@command_history, history_index)
+          input, input_end, history_index = Commands::Input.command_history_up(@@command_history, history_index)
         when :down
-          input, history_index = Commands::Input.command_history_down(@@command_history, history_index)
+          input, input_end, history_index = Commands::Input.command_history_down(@@command_history, history_index)
         when :left
           input, input_end = Commands::Input.move_cursor_left(input, input_end)
         when :right
