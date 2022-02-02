@@ -1,6 +1,7 @@
 # Essentials Terminal
 
 Terminal for Essentials debugging
+(still a very early WIP)
 
 ## Usage
 
