@@ -83,7 +83,7 @@ module Commands
         history << output unless output.empty?
         Console.echo_p
 
-        return "#{input}#{input_end}"
+        return output
       end
       #-------------------------------------------------------------------------
       #  delete character in front of cursor
