@@ -79,7 +79,8 @@ module Commands
       #  return currently typed string
       #-------------------------------------------------------------------------
       def return(input, input_end, history, index)
-        history.push(input + input_end)
+        output = input + input_end
+        history << output unless output.empty?
         Console.echo_p
 
         return "#{input}#{input_end}"
