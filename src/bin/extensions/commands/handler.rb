@@ -76,7 +76,7 @@ module Commands
     #---------------------------------------------------------------------------
     def self.try(string)
       # split input string into command and proper arguments
-      input   = string.scan( /([^"'\s]+)|["']([^"']+)["']/ ).flatten.compact
+      input   = parse_input(string)
       command = input.first
       args    = input[1..-1]
       # try running command
@@ -86,6 +86,15 @@ module Commands
         Console.echo_p("Unable to run command: error running command `#{command}`:")
         Console.echo_p($!.message)
       end
+    end
+    #---------------------------------------------------------------------------
+    #  try split input into least amount of components
+    #---------------------------------------------------------------------------
+    def self.parse_input(input)
+      try_single = input.to_s.scan(/(?<match>[^\s']+)|'(?<match>[^']*)'/).flatten.compact
+      try_double = input.to_s.scan(/(?<match>[^\s"]+)|"(?<match>[^"]*)"/).flatten.compact
+
+      return try_single.count < try_double.count ? try_single : try_double
     end
     #---------------------------------------------------------------------------
   end

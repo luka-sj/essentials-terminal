@@ -40,7 +40,7 @@ module Extensions
         # define regex
         regex = "#{key_char}.*?#{key_char}"
         # go through matches
-        string.scan(/#{regex}/).each do |component|
+        string.to_s.scan(/#{regex}/).each do |component|
           return *markup_breakdown(*markup_component(string, component, key, options))
         end
       end

@@ -82,7 +82,7 @@ module Commands
       @flags = []
       # go through each argument and categorize
       args.each do |arg|
-        if arg.scan(/^-.*$/).count > 0
+        if arg.to_s.scan(/^-.*$/).count > 0
           @flags.push(arg[1..-1])
         else
           parsed.push(arg)
