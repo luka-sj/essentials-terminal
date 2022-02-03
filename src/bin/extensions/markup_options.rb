@@ -43,7 +43,7 @@ module Extensions
     def markup_colors
       {
         '`' => :cyan, '"' => :light_purple, "'" => :light_purple, '$' => :green,
-        '~' => :red
+        '~' => :red, '!' => :red
       }
     end
     #---------------------------------------------------------------------------

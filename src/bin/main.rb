@@ -1,10 +1,9 @@
 #-------------------------------------------------------------------------------
-#  load required directories and files on start
+#  load system level scripts first
 #-------------------------------------------------------------------------------
 Dir[
   'src/bin/extensions/**/*.rb',
-  'src/app/**/*.rb',
-  'src/lib/**/*.rb',
+  'src/bin/console/**/*.rb',
   'src/config/**/*.rb'
 ].each { |f| require "./#{f}" }
 #-------------------------------------------------------------------------------
@@ -14,13 +13,22 @@ Console.setup
 #-------------------------------------------------------------------------------
 #  install required gems
 #-------------------------------------------------------------------------------
-class Extensions::Gemfile
+class Core::Gemfile
   install
 end
+
+Core::Gemfile.gems.each do |gem|
+  require gem
+rescue LoadError
+  Console.echo_p("Gem error: unable to load gem !#{gem}!.")
+end
 #-------------------------------------------------------------------------------
-#  load required gems on start
+#  load required directories and files on start
 #-------------------------------------------------------------------------------
-Extensions::Gemfile.gems.each { |gem| require gem }
+Dir[
+  'src/lib/**/*.rb',
+  'src/app/**/*.rb'
+].each { |f| require "./#{f}" }
 #-------------------------------------------------------------------------------
 #  start console loop
 #-------------------------------------------------------------------------------

@@ -5,34 +5,23 @@ module Commands
   module Input
     #---------------------------------------------------------------------------
     #  Key map
-    KEYS = {
+    KEYS_UNIX = {
       up: "\e[A", down: "\e[B", left: "\e[D", right: "\e[C",
-      enter: "\r", backspace: "\b"
-    }
-    #  Key map -> binary
-    KEYS_BINARY = {
-      up: '224,72', down: '224,80', left: '224,75', right: '224,77', delete: '224,83',
-      enter: '13', backspace: '8'
+      enter: '', backspace: "\u007F", delete: "\004"
     }
     #---------------------------------------------------------------------------
     class << self
       #-------------------------------------------------------------------------
-      #  reverse KEYS map
-      #-------------------------------------------------------------------------
-      def keys_binary_reverse
-        Hash[KEYS_BINARY.map(&:reverse)]
-      end
-      def keys_reverse
-        Hash[KEYS.map(&:reverse)]
-      end
-      #-------------------------------------------------------------------------
       #  resolve key input
       #-------------------------------------------------------------------------
       def resolve(input)
-        byte_notation = input.bytes.join(',')
-        return keys_binary_reverse[byte_notation] if keys_binary_reverse.key?(byte_notation)
+        return nil unless input
 
-        keys_reverse[input] if keys_reverse.key?(input)
+        [KEYS_UNIX].each do |keys|
+          hash = Hash[keys.map(&:reverse)]
+
+          return hash[input] if hash.key?(input)
+        end
       end
       #-------------------------------------------------------------------------
       #  go up in history and select command
@@ -76,7 +65,7 @@ module Commands
         input_end = input[-1] + input_end
         input = input[0...-1]
         # move cursor
-        $stdout.cursor_left(1)
+        STDOUT.cursor_left(1)
         # return output
         [input, input_end]
       end
@@ -89,7 +78,7 @@ module Commands
         input << input_end[0]
         input_end = input_end[1..-1]
         # move cursor
-        $stdout.cursor_right(1)
+        STDOUT.cursor_right(1)
         # return output
         [input, input_end]
       end
@@ -112,7 +101,7 @@ module Commands
         Console.flush
         Console.pointer
         Console.echo(input + input_end)
-        $stdout.cursor_left(input_end.length)
+        STDOUT.cursor_left(input_end.length)
         # return output
         input_end
       end
@@ -125,7 +114,7 @@ module Commands
         Console.flush(input_end.empty? ? 1 : 0)
         Console.pointer
         Console.echo(input + input_end)
-        $stdout.cursor_left(input_end.length)
+        STDOUT.cursor_left(input_end.length)
         # return output
         input
       end
@@ -133,10 +122,12 @@ module Commands
       #  write character from input to console
       #-------------------------------------------------------------------------
       def write(input, input_end, user_input)
+        return input unless user_input
+
         input << user_input
         Console.echo(user_input + input_end)
         # position cursor
-        $stdout.cursor_left(input_end.length)
+        STDOUT.cursor_left(input_end.length)
         # return output
         input
       end

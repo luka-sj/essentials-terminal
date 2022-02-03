@@ -1,4 +1,3 @@
-require 'io/console'
 #===============================================================================
 #  Handler module for running commands
 #===============================================================================
@@ -22,7 +21,7 @@ module Commands
       loop do
         input      = '' if input.nil?
         input_end  = '' if input_end.nil?
-        user_input = $stdin.getch
+        user_input = Console.getch
         # listen to keys (mapped by byte notation)
         case Commands::Input.resolve(user_input)
         when :enter

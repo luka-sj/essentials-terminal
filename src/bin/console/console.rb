@@ -1,6 +1,9 @@
 #===============================================================================
 #  Console message formatting
 #===============================================================================
+require 'io/console'
+require 'io/wait'
+
 module Console
   #-----------------------------------------------------------------------------
   class << Console
@@ -14,7 +17,7 @@ module Console
     end
     #  standard echo message with newline
     def echo_msg_ln(msg)
-      puts msg.to_s
+      print "#{msg}\r\n"
     end
   end
   #-----------------------------------------------------------------------------
@@ -90,13 +93,23 @@ module Console
   end
   #  flush current line
   def self.flush(offset = 0)
-    $stdout.erase_line(offset)
-    $stdout.goto_column(0)
-    $stdout.flush
+    STDOUT.erase_line(offset)
+    STDOUT.goto_column(0)
+    STDOUT.flush
   end
   #  run command
   def self.run(command, *args)
     system command, *args
+  end
+  #-----------------------------------------------------------------------------
+  #  record input
+  #-----------------------------------------------------------------------------
+  def self.getch
+    input = STDIN.getch.chomp
+    while STDIN.ready?
+      input << STDIN.getch.chomp
+    end
+    input
   end
   #-----------------------------------------------------------------------------
 end

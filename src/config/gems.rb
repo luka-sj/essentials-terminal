@@ -1,8 +1,9 @@
 #===============================================================================
 #  Configure required gems for console application
 #===============================================================================
-class Extensions::Gemfile
+class Core::Gemfile
   gem 'httparty'
+  gem 'os'
   gem 'pry'
   gem 'zlib'
 end
