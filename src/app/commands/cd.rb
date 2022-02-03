@@ -16,9 +16,9 @@ class CommandCd < Commands::BaseCommand
     @new_dir = args.first
     @current_dir = Env.working_dir.split('/')
 
-    handled = try_back
-    handled = try_home unless handled
-    handled = try_dir  unless handled
+    handled   = try_back
+    handled ||= try_home
+    handled ||= try_dir
 
     Console.echo_p("Changed working directory to '#{Env.working_dir}'.") if handled
   end
@@ -31,7 +31,7 @@ class CommandCd < Commands::BaseCommand
     return false unless @new_dir == '..'
 
     Env.set_working_dir(@current_dir[0...-1].join('/')) if @current_dir.count > 1
-    return true
+    true
   end
   #-----------------------------------------------------------------------------
   #  try going to home directory (directory where app was run)
@@ -39,7 +39,7 @@ class CommandCd < Commands::BaseCommand
   def try_home
     return false unless @new_dir == '~'
 
-    return Env.set_working_dir(Dir.pwd) || true
+    Env.set_working_dir(Dir.pwd) || true
   end
   #-----------------------------------------------------------------------------
   #  try going to directory
@@ -47,11 +47,12 @@ class CommandCd < Commands::BaseCommand
   def try_dir
     @new_dir = @current_dir.push(@new_dir).join('/') unless Dir.root_path?(@new_dir)
 
-    if Dir.safe?(@new_dir)
-      return Env.set_working_dir(@new_dir) || true
-    else
-      return false if Console.echo_p("Unable to change directory: no such directory '#{@new_dir}'.")
+    unless Dir.safe?(@new_dir)
+      Console.echo_p("Unable to change directory: no such directory '#{@new_dir}'.")
+      return false
     end
+
+    Env.set_working_dir(@new_dir) || true
   end
   #-----------------------------------------------------------------------------
 end

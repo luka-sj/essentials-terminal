@@ -14,7 +14,7 @@ module Console
     end
     #  standard echo message with newline
     def echo_msg_ln(msg)
-      puts "#{msg}"
+      puts msg.to_s
     end
   end
   #-----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ module Console
     echo_h1 'Essentials Terminal', false
     echo    '============================================', :brown
     echo_p  ''
-    self.version
+    version
   end
   #-----------------------------------------------------------------------------
   #  print system version info
@@ -81,8 +81,8 @@ module Console
     breaks.times { echo_msg_ln '' }
   end
   #  string with markup
-  def self.echo(msg, color = :default, bg = :default)
-    echo_msg markup_style(msg, text: color, bg: bg)
+  def self.echo(msg, color = :default, background = :default)
+    echo_msg markup_style(msg, text: color, background: background)
   end
   #  status output
   def self.echo_status(status)

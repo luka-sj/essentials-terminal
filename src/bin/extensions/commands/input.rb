@@ -4,8 +4,13 @@
 module Commands
   module Input
     #---------------------------------------------------------------------------
-    #  Key map -> binary
+    #  Key map
     KEYS = {
+      up: "\e[A", down: "\e[B", left: "\e[D", right: "\e[C",
+      enter: "\r", backspace: "\b"
+    }
+    #  Key map -> binary
+    KEYS_BINARY = {
       up: '224,72', down: '224,80', left: '224,75', right: '224,77', delete: '224,83',
       enter: '13', backspace: '8'
     }
@@ -14,8 +19,20 @@ module Commands
       #-------------------------------------------------------------------------
       #  reverse KEYS map
       #-------------------------------------------------------------------------
-      def keys_binary
+      def keys_binary_reverse
+        Hash[KEYS_BINARY.map(&:reverse)]
+      end
+      def keys_reverse
         Hash[KEYS.map(&:reverse)]
+      end
+      #-------------------------------------------------------------------------
+      #  resolve key input
+      #-------------------------------------------------------------------------
+      def resolve(input)
+        byte_notation = input.bytes.join(',')
+        return keys_binary_reverse[byte_notation] if keys_binary_reverse.key?(byte_notation)
+
+        keys_reverse[input] if keys_reverse.key?(input)
       end
       #-------------------------------------------------------------------------
       #  go up in history and select command
@@ -31,13 +48,14 @@ module Commands
         Console.pointer
         Console.echo(ret)
         # return output and index
-        return ret, '', index
+        [ret, '', index]
       end
       #-------------------------------------------------------------------------
       #  go down in history and select command
       #-------------------------------------------------------------------------
       def command_history_down(history, index)
         return unless index
+
         return if index >= (history.count - 1)
 
         index += 1 if index < history.count
@@ -47,43 +65,43 @@ module Commands
         Console.pointer
         Console.echo(ret)
         # return output and index
-        return ret, '', index
+        [ret, '', index]
       end
       #-------------------------------------------------------------------------
       #  move console cursor to the left
       #-------------------------------------------------------------------------
       def move_cursor_left(input, input_end)
-        return input, input_end unless input && input.length > 0
+        return input, input_end unless input && !input.empty?
 
         input_end = input[-1] + input_end
         input = input[0...-1]
         # move cursor
         $stdout.cursor_left(1)
         # return output
-        return input, input_end
+        [input, input_end]
       end
       #-------------------------------------------------------------------------
       #  move console cursor to the right
       #-------------------------------------------------------------------------
       def move_cursor_right(input, input_end)
-        return input, input_end unless input_end && input_end.length > 0
+        return input, input_end unless input_end && !input_end.empty?
 
         input << input_end[0]
         input_end = input_end[1..-1]
         # move cursor
         $stdout.cursor_right(1)
         # return output
-        return input, input_end
+        [input, input_end]
       end
       #-------------------------------------------------------------------------
       #  return currently typed string
       #-------------------------------------------------------------------------
-      def return(input, input_end, history, index)
+      def return(input, input_end, history, _)
         output = input + input_end
         history << output unless output.empty?
         Console.echo_p
 
-        return output
+        output
       end
       #-------------------------------------------------------------------------
       #  delete character in front of cursor
@@ -96,7 +114,7 @@ module Commands
         Console.echo(input + input_end)
         $stdout.cursor_left(input_end.length)
         # return output
-        return input_end
+        input_end
       end
       #-------------------------------------------------------------------------
       #  delete character behind cursor
@@ -104,12 +122,12 @@ module Commands
       def backspace(input, input_end)
         input = input[0...-1]
         # flush console
-        Console.flush(input_end.length > 0 ? 0 : 1)
+        Console.flush(input_end.empty? ? 1 : 0)
         Console.pointer
         Console.echo(input + input_end)
         $stdout.cursor_left(input_end.length)
         # return output
-        return input
+        input
       end
       #-------------------------------------------------------------------------
       #  write character from input to console
@@ -120,7 +138,7 @@ module Commands
         # position cursor
         $stdout.cursor_left(input_end.length)
         # return output
-        return input
+        input
       end
       #-------------------------------------------------------------------------
     end

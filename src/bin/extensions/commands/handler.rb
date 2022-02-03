@@ -4,8 +4,12 @@ require 'io/console'
 #===============================================================================
 module Commands
   module Handler
+    #---------------------------------------------------------------------------
     #  command history collection for active session
-    @@command_history = []
+    #---------------------------------------------------------------------------
+    def self.command_history
+      @command_history ||= []
+    end
     #---------------------------------------------------------------------------
     #  function to listen to user input until enter is pressed
     #---------------------------------------------------------------------------
@@ -20,19 +24,19 @@ module Commands
         input_end  = '' if input_end.nil?
         user_input = $stdin.getch
         # listen to keys (mapped by byte notation)
-        case Commands::Input.keys_binary[user_input.bytes.join(',')]
+        case Commands::Input.resolve(user_input)
         when :enter
-          return Commands::Input.return(input, input_end, @@command_history, history_index)
+          return Commands::Input.return(input, input_end, command_history, history_index)
         when :up
-          input, input_end, history_index = Commands::Input.command_history_up(@@command_history, history_index)
+          input, input_end, history_index = Commands::Input.command_history_up(command_history, history_index)
         when :down
-          input, input_end, history_index = Commands::Input.command_history_down(@@command_history, history_index)
+          input, input_end, history_index = Commands::Input.command_history_down(command_history, history_index)
         when :left
           input, input_end = Commands::Input.move_cursor_left(input, input_end)
         when :right
           input, input_end = Commands::Input.move_cursor_right(input, input_end)
         when :delete
-          next unless input_end.length > 0
+          next if input_end.empty?
 
           input_end = Commands::Input.delete(input, input_end)
         when :backspace
@@ -47,14 +51,14 @@ module Commands
     #---------------------------------------------------------------------------
     def self.get_resource(command)
       # check if command is registered
-      if Commands::Registry.has_command?(command)
+      if Commands::Registry.command?(command)
         command = Commands::Registry.from_alias(command)
         # return proper object
-        return "Command#{command.sub(/^\w/) { $&.upcase }}".constantize
+        "Command#{command.capitalize}".constantize
       else
         # return error
         Console.echo_p("Unable to run command: no such command `#{command}`.") if command && !command.empty?
-        return nil
+        nil
       end
     end
     #---------------------------------------------------------------------------
@@ -66,10 +70,12 @@ module Commands
       command = resource.get(:name)
       # run command if no additional validation is required
       return true unless options
+
       return true if args.count >= options.count
+
       # print error message
       Console.echo_p("Unable to run command: invalid number of arguments for command `#{command}`. Expected #{options.count} but got #{args.count}.")
-      return false
+      false
     end
     #---------------------------------------------------------------------------
     #  try running specified command
@@ -82,9 +88,9 @@ module Commands
       # try running command
       begin
         get_resource(command)&.new&.run(*args)
-      rescue
+      rescue StandardError
         Console.echo_p("Unable to run command: error running command `#{command}`:")
-        Console.echo_p($!.message)
+        Console.echo_p($ERROR_INFO.message)
       end
     end
     #---------------------------------------------------------------------------
@@ -94,7 +100,7 @@ module Commands
       try_single = input.to_s.scan(/(?<match>[^\s']+)|'(?<match>[^']*)'/).flatten.compact
       try_double = input.to_s.scan(/(?<match>[^\s"]+)|"(?<match>[^"]*)"/).flatten.compact
 
-      return try_single.count < try_double.count ? try_single : try_double
+      try_single.count < try_double.count ? try_single : try_double
     end
     #---------------------------------------------------------------------------
   end

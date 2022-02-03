@@ -52,6 +52,7 @@ module Commands
     #---------------------------------------------------------------------------
     def self.register
       return unless attributes[:name]
+
       Commands::Registry.register(attributes[:name], attributes[:name])
 
       return unless attributes[:alias]
@@ -89,7 +90,7 @@ module Commands
         end
       end
       # return only command arguments
-      return parsed
+      parsed
     end
     #---------------------------------------------------------------------------
     #  check if flag has been passed to command

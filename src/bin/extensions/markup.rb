@@ -27,7 +27,7 @@ module Extensions
       # remove markup from input string
       string.gsub!(component, trimmed)
       # return output
-      return string, options
+      [string, options]
     end
     #---------------------------------------------------------------------------
     #  deconstruct markup values for given string
@@ -45,7 +45,7 @@ module Extensions
         end
       end
       # return output
-      return string, options
+      [string, options]
     end
     #---------------------------------------------------------------------------
     #  apply markup for string
@@ -58,7 +58,7 @@ module Extensions
         string.gsub!(key, markup_style(key, **opt))
       end
       # return string
-      return string
+      string
     end
     #---------------------------------------------------------------------------
   end

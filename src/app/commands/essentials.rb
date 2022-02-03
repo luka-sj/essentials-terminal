@@ -29,8 +29,11 @@ class CommandEssentials < Commands::BaseCommand
       Console.echo('Unable to load project: ')
       Console.echo('no valid project found.', :red)
       Console.echo_p
-      return
+      return false
     end
+
+    # TODO: the rest of the functionality
+    true
   end
   #-----------------------------------------------------------------------------
 end

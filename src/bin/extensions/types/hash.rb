@@ -1,21 +1,21 @@
 #===============================================================================
-#  `hash` class extensions
+#  `Hash` class extensions
 #===============================================================================
 class ::Hash
   #-----------------------------------------------------------------------------
   #  perform deep merge (returns Hash)
   #-----------------------------------------------------------------------------
   def deep_merge(hash)
-    merged_hash = self.clone
+    merged_hash = clone
     merged_hash.deep_merge!(hash) if hash.is_a?(Hash)
-    return merged_hash
+    merged_hash
   end
   #-----------------------------------------------------------------------------
   #  perform deep merge (destructive)
   #-----------------------------------------------------------------------------
   def deep_merge!(hash)
-    # failsafe
     return unless hash.is_a?(Hash)
+
     hash.each do |key, val|
       if self[key].is_a?(Hash)
         self[key].deep_merge!(val)

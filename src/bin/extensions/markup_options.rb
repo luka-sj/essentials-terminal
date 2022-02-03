@@ -57,10 +57,10 @@ module Extensions
     #---------------------------------------------------------------------------
     #  apply console coloring
     #---------------------------------------------------------------------------
-    def markup_style(string, text: :default, bg: :default, **options)
+    def markup_style(string, text: :default, background: :default, **options)
       # get colors
       code_text = string_colors[text]
-      code_bg   = background_colors[bg]
+      code_bg   = background_colors[background]
       # get options
       options_pool = options.select { |key, val| font_options.key?(key) && val }
       markup_pool  = options_pool.keys.map { |opt| font_options[opt] }.join(';').squeeze

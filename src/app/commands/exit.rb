@@ -12,7 +12,7 @@ class CommandExit < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
+  def process(*_args)
     Console.echo_p('Exiting application ...', 2)
     exit!
   end

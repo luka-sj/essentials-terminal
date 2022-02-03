@@ -12,7 +12,7 @@ class CommandLs < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
+  def process(*_args)
     #  show folder content if flag is specified
     if flag?('l')
       #  get all folder content
