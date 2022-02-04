@@ -1,5 +1,5 @@
 @ECHO OFF
 
-ruby ./src/bin/main.rb
+ruby ./src/bin/main.rb '%cd%'
 
 PAUSE

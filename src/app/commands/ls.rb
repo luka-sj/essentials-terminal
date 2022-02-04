@@ -14,7 +14,7 @@ class CommandLs < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   def process(*_args)
     #  show folder content if flag is specified
-    return echo_working_directory_content if flag('l')
+    return echo_working_directory_content if flag?('l')
 
     #  return working directory
     echo_working_directory

@@ -75,7 +75,10 @@ module Commands
     def run(*args)
       options = process_flags(*args)
 
-      process(*options) if Commands::Handler.validate(self, *options)
+      process(*options) if Commands::Handler.validate(self, *options) && validate(*options)
+    rescue StandardError
+      Console.echo_p("Unable to run command `#{self.class.name}`:")
+      Console.echo_p($ERROR_INFO.message)
     end
     #---------------------------------------------------------------------------
     #  process input arguments and separate flags from command arguments
@@ -105,6 +108,10 @@ module Commands
     #  get class metadata attributes
     def attributes
       self.class.attributes
+    end
+    # private validation method
+    def validate(*args)
+      true
     end
     #---------------------------------------------------------------------------
   end

@@ -15,9 +15,6 @@ class CommandEval < Commands::BaseCommand
   def process(*args)
     output = eval(args.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
     Console.echo_p(Console.syntax_highlighting(output.to_s))
-  rescue StandardError
-    Console.echo_p('Unable to run `eval` given code:')
-    Console.echo_p($ERROR_INFO.message)
   end
   #-----------------------------------------------------------------------------
 end

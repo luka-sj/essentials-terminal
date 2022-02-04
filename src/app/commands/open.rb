@@ -13,13 +13,19 @@ class CommandOpen < Commands::BaseCommand
   #  process command action
   #-----------------------------------------------------------------------------
   def process(*args)
-    #  fail if not URL and file does not exist
-    return Console.echo_p("Unable to open: no such file '#{args.first}'.") unless File.safe?(args.first) || args.first.url?
-
     Console.echo('Opening ')
     Console.echo(args.first, :light_purple)
     Console.echo_p(' ...')
     Console.run(Env::OS.windows? ? 'start' : 'open', args.first)
+  end
+  #-----------------------------------------------------------------------------
+  #  vaidate command
+  #-----------------------------------------------------------------------------
+  def vaidate(*args)
+    return true if File.safe?(args.first) || args.first.url?
+
+    Console.echo_p("Unable to open: no such file '#{args.first}'.")
+    false
   end
   #-----------------------------------------------------------------------------
 end

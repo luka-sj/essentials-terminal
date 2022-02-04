@@ -16,7 +16,7 @@ class CommandEssentials < Commands::BaseCommand
     #  check subcommand
     case args.first
     when 'load'
-      load_essentials
+      Env.load_essentials_scripts
     when 'eval'
       eval_essentials_code(args[1])
     end
@@ -24,9 +24,19 @@ class CommandEssentials < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   private
   #-----------------------------------------------------------------------------
-  #  load Essentials content
+  #  run Essentials content
   #-----------------------------------------------------------------------------
-  def load_essentials
+  def eval_essentials_code(code)
+    return Console.echo_p('Unable to eval: Essentials scripts not loaded. Run `essentials load` first.') unless Env.essentials_loaded?
+
+    Dir.change_to_working
+    Console.echo_p(eval(code, Env.essentials_binding, __FILE__, __LINE__))
+    Dir.restore
+  end
+  #-----------------------------------------------------------------------------
+  #  vaidate command
+  #-----------------------------------------------------------------------------
+  def validate(*_args)
     unless File.safe?("#{Env.working_dir}/Game.rxproj") && File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
       Console.echo('Unable to load project: ')
       Console.echo('no valid project found.', :red)
@@ -34,18 +44,7 @@ class CommandEssentials < Commands::BaseCommand
       return false
     end
 
-    Env.load_essentials_scripts
-  end
-
-  def eval_essentials_code(code)
-    return Console.echo_p('Unable to eval: Essentials scripts not loaded. Run `essentials load` first.') unless Env.essentials_loaded?
-
-    Dir.change_to_working
-    Console.echo_p(eval(code, Env.essentials_binding, __FILE__, __LINE__))
-    Dir.restore
-  rescue StandardError
-    Console.echo_p('Unable to run `eval` given code:')
-    Console.echo_p($ERROR_INFO.message)
+    true
   end
   #-----------------------------------------------------------------------------
 end

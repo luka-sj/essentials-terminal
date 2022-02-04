@@ -73,6 +73,7 @@ module Commands
 
         return true if args.count >= options.count
 
+        binding.pry
         # print error message
         Console.echo_p("Unable to run command: invalid number of arguments for command `#{command}`. Expected #{options.count} but got #{args.count}.")
         false
