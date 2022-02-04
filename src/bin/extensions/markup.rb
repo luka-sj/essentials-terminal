@@ -25,7 +25,7 @@ module Extensions
         new_opt[markup_options[key]] = true if markup_options.key?(key)
       end)
       # remove markup from input string
-      string.gsub!(component, trimmed)
+      string.gsub!(component, trimmed) if string.respond_to?(:gsub!)
       # return output
       [string, options]
     end

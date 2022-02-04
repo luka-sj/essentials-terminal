@@ -88,12 +88,7 @@ module Commands
         command = input.first
         args    = input[1..-1]
         # try running command
-        begin
-          get_resource(command)&.new&.run(*args)
-        rescue StandardError
-          Console.echo_p("Unable to run command: error running command `#{command}`:")
-          Console.echo_p($ERROR_INFO.message)
-        end
+        get_resource(command)&.new&.run(*args)
       end
       #-------------------------------------------------------------------------
       #  try split input into least amount of components

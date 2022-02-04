@@ -67,7 +67,7 @@ module Commands
     #  get specified metadata attribute
     #---------------------------------------------------------------------------
     def get(attribute)
-      attributes[attribute]
+      self.attributes[attribute]
     end
     #---------------------------------------------------------------------------
     #  run command
@@ -77,8 +77,9 @@ module Commands
 
       process(*options) if Commands::Handler.validate(self, *options) && validate(*options)
     rescue StandardError
-      Console.echo_p("Unable to run command `#{self.class.name}`:")
+      Console.echo_p("Unable to run command `#{self.get(:name)}`:")
       Console.echo_p($ERROR_INFO.message)
+      Console.echo_p($ERROR_INFO.backtrace)
     end
     #---------------------------------------------------------------------------
     #  process input arguments and separate flags from command arguments
