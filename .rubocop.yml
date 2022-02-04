@@ -38,6 +38,9 @@ Security/Open:
 Security/Eval:
   Enabled: false
 
+Security/MarshalLoad:
+  Enabled: false
+
 Style/MutableConstant:
   Enabled: false
 
