@@ -19,8 +19,7 @@ module Env
     #  define Essentials script binding
     #---------------------------------------------------------------------------
     def essentials_binding
-      @essentials_binding ||= Encapsulation.new
-      @essentials_binding.get_binding
+      @essentials_binding
     end
     #---------------------------------------------------------------------------
     #  get Essentials version
@@ -35,16 +34,23 @@ module Env
     def load_essentials_scripts
       return false unless File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
 
-      scripts = File.open(rxdata, 'rb') { |f| Marshal.load(f) }
-      scripts.each do |collection|
-        _, title, script = collection
-        script = Zlib::Inflate.inflate(script).delete("\r").gsub("\t", '  ')
+      @essentials_binding = Thread.new do
+        scripts = File.open("#{Env.working_dir}/Data/Scripts.rxdata", 'rb') { |f| Marshal.load(f) }
+        scripts.each do |collection|
+          _, title, script = collection
+          script = Zlib::Inflate.inflate(script).delete("\r").gsub("\t", '  ')
 
-        next if script.empty? || title.downcase == 'main'
+          next if script.empty? || title.downcase == 'main'
 
-        # TODO: incomplete - needs to add functionality to initialize game
-        # components and eval runtime values
-        eval(script, Env.essentials_binding)
+          # TODO: incomplete - needs to add functionality to initialize game
+          # components and eval runtime values
+          begin
+            eval(script)
+          rescue StandardError
+            Console.echo_p($ERROR_INFO.message)
+            Console.echo_p($ERROR_INFO.backtrace)
+          end
+        end
       end
 
       @essentials_loaded = true

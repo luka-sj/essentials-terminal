@@ -30,7 +30,7 @@ class CommandEssentials < Commands::BaseCommand
   def eval_essentials_code(code)
     return Console.echo_p('Unable to eval: Essentials scripts not loaded. Run `essentials load` first.') unless Env.essentials_loaded?
 
-    Console.echo_p(eval(code, Env.essentials_binding, __FILE__, __LINE__))
+    Console.echo_p(Env.essentials_binding.instance_eval(code))
   end
   #-----------------------------------------------------------------------------
   #  vaidate command
