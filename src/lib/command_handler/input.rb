@@ -9,6 +9,11 @@ module Commands
       up: "\e[A", down: "\e[B", left: "\e[D", right: "\e[C",
       enter: '', backspace: "\u007F", delete: "\004"
     }
+
+    KEYS_WINDOWS = {
+      up: '224,72', down: '224,80', left: '224,75', right: '224,77',
+      enter: '', backspace: '8', delete: '224,83',
+    }
     #---------------------------------------------------------------------------
     class << self
       #-------------------------------------------------------------------------
@@ -17,11 +22,11 @@ module Commands
       def resolve(input)
         return nil unless input
 
-        [KEYS_UNIX].each do |keys|
-          hash = Hash[keys.map(&:reverse)]
+        input = input.bytes.join(',') if Env::OS.windows?
+        keys = Env::OS.windows? ? KEYS_WINDOWS : KEYS_UNIX
+        hash = Hash[keys.map(&:reverse)]
 
-          return hash[input] if hash.key?(input)
-        end
+        return hash[input] if hash.key?(input)
       end
       #-------------------------------------------------------------------------
       #  go up in history and select command
