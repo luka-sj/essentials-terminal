@@ -106,9 +106,7 @@ module Console
   #-----------------------------------------------------------------------------
   def self.getch
     input = STDIN.getch.chomp
-    while STDIN.ready?
-      input << STDIN.getch.chomp
-    end
+    input << STDIN.getch.chomp while STDIN.ready?
     input
   end
   #-----------------------------------------------------------------------------
