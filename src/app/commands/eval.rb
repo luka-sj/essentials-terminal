@@ -13,7 +13,7 @@ class CommandEval < Commands::BaseCommand
   #  process command action
   #-----------------------------------------------------------------------------
   def process(*args)
-    eval("puts 'eval:'; puts #{args.first}", TOPLEVEL_BINDING, __FILE__, __LINE__)
+    Console.echo_p(eval(args.first, TOPLEVEL_BINDING, __FILE__, __LINE__))
   rescue StandardError
     Console.echo_p('Unable to run `eval` given code:')
     Console.echo_p($ERROR_INFO.message)

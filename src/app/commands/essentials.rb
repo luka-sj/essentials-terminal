@@ -17,6 +17,8 @@ class CommandEssentials < Commands::BaseCommand
     case args.first
     when 'load'
       load_essentials
+    when 'eval'
+      eval_essentials_code(args[1])
     end
   end
   #-----------------------------------------------------------------------------
@@ -32,8 +34,18 @@ class CommandEssentials < Commands::BaseCommand
       return false
     end
 
-    # TODO: the rest of the functionality
-    true
+    Env.load_essentials_scripts
+  end
+
+  def eval_essentials_code(code)
+    return Console.echo_p('Unable to eval: Essentials scripts not loaded. Run `essentials load` first.') unless Env.essentials_loaded?
+
+    Dir.change_to_working
+    Console.echo_p(eval(code, Env.essentials_binding, __FILE__, __LINE__))
+    Dir.restore
+  rescue StandardError
+    Console.echo_p('Unable to run `eval` given code:')
+    Console.echo_p($ERROR_INFO.message)
   end
   #-----------------------------------------------------------------------------
 end
