@@ -7,8 +7,9 @@ module Core
       #-------------------------------------------------------------------------
       #  register gem as dependency
       #-------------------------------------------------------------------------
-      def gem(name)
-        gems.push(name)
+      def gem(name, gem_alias = nil)
+        gem_alias ||= name
+        gems.push([name, gem_alias])
       end
       #-------------------------------------------------------------------------
       #  list all gem dependencies
@@ -26,17 +27,17 @@ module Core
         # iterate through all registered gems
         gems.each do |gem|
           # check if gem already installed on system
-          if Console.run("gem list -i #{gem} > nul")
-            Console.echo_li("gem `#{gem}` already installed.\r\n")
+          if Console.run("gem list -i #{gem.first} > nul")
+            Console.echo_li("gem `#{gem.first}` already installed.\r\n")
             next
           end
 
           # install gem if required
-          Console.echo_li("installing gem `#{gem}`...")
-          status = Console.run("gem install #{gem} > nul")
+          Console.echo_li("installing gem `#{gem.first}`...")
+          status = Console.run("gem install #{gem.first} > nul")
           failed = true unless status
           # return status and delete gem from registry if install failed
-          gems.delete(gem) if failed
+          gems.delete(gem.first) if failed
           Console.echo_status(status)
         end
         # print output to console

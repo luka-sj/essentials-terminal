@@ -18,9 +18,9 @@ class Core::Gemfile
 end
 
 Core::Gemfile.gems.each do |gem|
-  require gem
+  require gem[1]
 rescue LoadError
-  Console.echo_p("Gem error: unable to load gem !#{gem}!.")
+  Console.echo_p("Gem error: unable to load gem !#{gem[1]}!.")
 end
 
 Env.run_before_init
