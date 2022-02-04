@@ -6,6 +6,9 @@ module Env
 
   after_init do
     Rouge::Theme.find('base16').render(scope: '.highlight')
-    Env.set_working_dir(ARGV[0]) if ARGV[0] # Windows compatibility
+    if ARGV[0] # Windows compatibility
+      Env.set_working_dir(ARGV[0])
+      Dir.chdir(ARGV[0])
+    end
   end
 end

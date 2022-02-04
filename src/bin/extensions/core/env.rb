@@ -7,13 +7,13 @@ module Env
     #  get current working directory
     #---------------------------------------------------------------------------
     def working_dir
-      @working_dir ||= Dir.pwd
+      Dir.pwd
     end
     #---------------------------------------------------------------------------
     #  set current working directory
     #---------------------------------------------------------------------------
     def set_working_dir(dir)
-      @working_dir = dir
+      Dir.chdir(dir)
     end
     #---------------------------------------------------------------------------
     #  define Essentials script binding
@@ -35,7 +35,6 @@ module Env
     def load_essentials_scripts
       return false unless File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
 
-      Dir.change_to_working
       scripts = File.open(rxdata, 'rb') { |f| Marshal.load(f) }
       scripts.each do |collection|
         _, title, script = collection
@@ -48,7 +47,6 @@ module Env
         eval(script, Env.essentials_binding)
       end
 
-      Dir.restore
       @essentials_loaded = true
     end
     #---------------------------------------------------------------------------
