@@ -22,6 +22,8 @@ Core::Gemfile.gems.each do |gem|
 rescue LoadError
   Console.echo_p("Gem error: unable to load gem !#{gem}!.")
 end
+
+Env.run_before_init
 #-------------------------------------------------------------------------------
 #  load required directories and files on start
 #-------------------------------------------------------------------------------
@@ -32,7 +34,7 @@ Dir[
 #-------------------------------------------------------------------------------
 #  start console loop
 #-------------------------------------------------------------------------------
-Rouge::Theme.find('base16').render(scope: '.highlight')
+Env.run_after_init
 
 loop do
   Console.await

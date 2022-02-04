@@ -3,62 +3,64 @@
 #===============================================================================
 module Commands
   class BaseCommand
-    #---------------------------------------------------------------------------
-    #  collection of all attribute metadata
-    #---------------------------------------------------------------------------
-    def self.attributes
-      @attributes ||= {}
-    end
-    #---------------------------------------------------------------------------
-    #  set command name
-    #---------------------------------------------------------------------------
-    def self.name(name)
-      attributes[:name] = name
-    end
-    #---------------------------------------------------------------------------
-    #  set command description
-    #---------------------------------------------------------------------------
-    def self.description(description)
-      attributes[:description] = description
-    end
-    #---------------------------------------------------------------------------
-    #  set command aliases
-    #---------------------------------------------------------------------------
-    def self.aliases(*names)
-      attributes[:alias] = names
-    end
-    #---------------------------------------------------------------------------
-    #  set required command arguments
-    #---------------------------------------------------------------------------
-    def self.option(name, description = nil)
-      attributes[:options] = {} unless attributes[:options]
-      attributes[:options][name] = description
-    end
-    #---------------------------------------------------------------------------
-    #  set optional command flags
-    #---------------------------------------------------------------------------
-    def self.flag(name, description = nil)
-      attributes[:flag] = {} unless attributes[:flag]
-      attributes[:flag][name] = description
-    end
-    #---------------------------------------------------------------------------
-    #  set command version
-    #---------------------------------------------------------------------------
-    def self.version(version)
-      attributes[:version] = version
-    end
-    #---------------------------------------------------------------------------
-    #  register command in main Commands::Registry
-    #---------------------------------------------------------------------------
-    def self.register
-      return unless attributes[:name]
+    class << self
+      #-------------------------------------------------------------------------
+      #  collection of all attribute metadata
+      #-------------------------------------------------------------------------
+      def attributes
+        @attributes ||= {}
+      end
+      #-------------------------------------------------------------------------
+      #  set command name
+      #-------------------------------------------------------------------------
+      def name(name)
+        attributes[:name] = name
+      end
+      #-------------------------------------------------------------------------
+      #  set command description
+      #-------------------------------------------------------------------------
+      def description(description)
+        attributes[:description] = description
+      end
+      #-------------------------------------------------------------------------
+      #  set command aliases
+      #-------------------------------------------------------------------------
+      def aliases(*names)
+        attributes[:alias] = names
+      end
+      #-------------------------------------------------------------------------
+      #  set required command arguments
+      #-------------------------------------------------------------------------
+      def option(name, description = nil)
+        attributes[:options] = {} unless attributes[:options]
+        attributes[:options][name] = description
+      end
+      #-------------------------------------------------------------------------
+      #  set optional command flags
+      #-------------------------------------------------------------------------
+      def flag(name, description = nil)
+        attributes[:flag] = {} unless attributes[:flag]
+        attributes[:flag][name] = description
+      end
+      #-------------------------------------------------------------------------
+      #  set command version
+      #-------------------------------------------------------------------------
+      def version(version)
+        attributes[:version] = version
+      end
+      #-------------------------------------------------------------------------
+      #  register command in main Commands::Registry
+      #-------------------------------------------------------------------------
+      def register
+        return unless attributes[:name]
 
-      Commands::Registry.register(attributes[:name], attributes[:name])
+        Commands::Registry.register(attributes[:name], attributes[:name])
 
-      return unless attributes[:alias]
+        return unless attributes[:alias]
 
-      attributes[:alias].each do |name|
-        Commands::Registry.register(name, attributes[:name])
+        attributes[:alias].each do |name|
+          Commands::Registry.register(name, attributes[:name])
+        end
       end
     end
     #---------------------------------------------------------------------------
