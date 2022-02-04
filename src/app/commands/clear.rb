@@ -12,7 +12,7 @@ class CommandClear < Commands::BaseCommand
   #  process command action
   #-----------------------------------------------------------------------------
   def process(*_args)
-    action = ENV['OS'] == 'Windows_NT' ? 'cls' : 'clear'
+    action = Env::OS.windows? ? 'cls' : 'clear'
     Console.run(action)
   end
   #-----------------------------------------------------------------------------

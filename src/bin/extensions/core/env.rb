@@ -57,4 +57,34 @@ module Env
     @essentials_loaded ||= false
   end
   #-----------------------------------------------------------------------------
+  #  Module to simplify OS detection
+  #-----------------------------------------------------------------------------
+  module OS
+    #---------------------------------------------------------------------------
+    #  check for OS versions
+    def self.windows?
+      (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    end
+
+    def self.mac?
+      (/darwin/ =~ RUBY_PLATFORM) != nil
+    end
+
+    def self.unix?
+      !OS.windows?
+    end
+
+    def self.linux?
+      OS.unix? and !OS.mac?
+    end
+
+    def self.get
+      ['windows', 'mac', 'unix', 'linux'].each do |try_os|
+        return try_os.capitalize if send("#{try_os}?")
+      end
+
+      'Unknown'
+    end
+    #---------------------------------------------------------------------------
+  end
 end

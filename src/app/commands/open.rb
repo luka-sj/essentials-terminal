@@ -16,9 +16,10 @@ class CommandOpen < Commands::BaseCommand
     #  fail if not URL and file does not exist
     return Console.echo_p("Unable to open: no such file '#{args.first}'.") unless File.safe?(args.first) || args.first.url?
 
-    action = ENV['OS'] == 'Windows_NT' ? 'start' : 'open'
-    Console.echo_p("Opening '#{args.first}' ...")
-    Console.run(action, args.first)
+    Console.echo('Opening ')
+    Console.echo(args.first, :light_purple)
+    Console.echo_p(' ...')
+    Console.run(Env::OS.windows? ? 'start' : 'open', args.first)
   end
   #-----------------------------------------------------------------------------
 end

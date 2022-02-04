@@ -36,7 +36,7 @@ module Console
   def self.version
     echo_p  "Console Version    : #{Env::VERSION}"
     echo_p  "Essentials Version : #{Env.essentials_version}"
-    echo_p  "Platform           : #{ENV['OS']}"
+    echo_p  "Platform           : #{Env::OS.get}"
     echo_p  '', 2
   end
   #-----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ module Console
   #-----------------------------------------------------------------------------
   def self.pointer
     Console.echo(' ~ ', :green)
-    Console.echo(ENV['USER'], :yellow)
+    Console.echo(ENV['USER'], :blue)
     Console.echo(' > ')
   end
   #-----------------------------------------------------------------------------
