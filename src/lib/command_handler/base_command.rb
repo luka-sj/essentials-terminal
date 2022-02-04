@@ -31,15 +31,15 @@ module Commands
       #-------------------------------------------------------------------------
       #  set required command arguments
       #-------------------------------------------------------------------------
-      def option(name, description = nil)
-        attributes[:options] = {} unless attributes[:options]
-        attributes[:options][name] = description
+      def option(name, description = nil, modifier = :required)
+        attributes[:options] ||= {}
+        attributes[:options][name] = [description, modifier]
       end
       #-------------------------------------------------------------------------
       #  set optional command flags
       #-------------------------------------------------------------------------
       def flag(name, description = nil)
-        attributes[:flag] = {} unless attributes[:flag]
+        attributes[:flag] ||= {}
         attributes[:flag][name] = description
       end
       #-------------------------------------------------------------------------

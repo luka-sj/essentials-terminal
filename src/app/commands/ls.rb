@@ -25,7 +25,7 @@ class CommandLs < Commands::BaseCommand
   #  print out current working directory location
   #-----------------------------------------------------------------------------
   def echo_working_directory
-    Console.echo('Current working directory:')
+    Console.echo('Current working directory: ')
     Console.echo(Env.working_dir, :light_purple)
     Console.echo_p
   end
@@ -35,7 +35,7 @@ class CommandLs < Commands::BaseCommand
   def echo_working_directory_content
     #  get all folder content
     dirs = Dir.get(Env.working_dir)
-    Console.echo_p("Currently in the '#{Env.working_dir}' directory:")
+    Console.echo_p("Currently in the '#{Env.working_dir}' directory: ")
     #  iterate through each and print to console
     dirs.each do |dir|
       file_dir = dir.split('/').last

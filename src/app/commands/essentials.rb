@@ -7,6 +7,7 @@ class CommandEssentials < Commands::BaseCommand
   version     '1.0.0'
   description 'Run essentials environment'
   option      'load', 'Load Essentials content from current working directory'
+  option      'eval', 'Run code from the Essentials environment', :alternative
 
   register
   #-----------------------------------------------------------------------------

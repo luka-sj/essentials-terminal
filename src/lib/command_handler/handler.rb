@@ -71,10 +71,12 @@ module Commands
         # run command if no additional validation is required
         return true unless options
 
-        return true if args.count >= options.count
+        required = options.select { |_k, v| v[1] == :required }.map { |k, _v| k }
+
+        return true if args.count >= required.count
 
         # print error message
-        Console.echo_p("Unable to run command: invalid number of arguments for command `#{command}`. Expected #{options.count} but got #{args.count}.")
+        Console.echo_p("Unable to run command: invalid number of arguments for command `#{command}`. Expected #{required.count} but got #{args.count}.")
         false
       end
       #-------------------------------------------------------------------------
