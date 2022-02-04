@@ -110,4 +110,13 @@ module Console
     input
   end
   #-----------------------------------------------------------------------------
+  #  syntax highlighting for console output
+  #-----------------------------------------------------------------------------
+  def self.syntax_highlighting(string, syntax = 'Ruby')
+    formatter = Rouge::Formatters::Terminal256.new
+    lexer = "Rouge::Lexers::#{syntax}".constantize.new
+
+    formatter.format(lexer.lex(string))
+  end
+  #-----------------------------------------------------------------------------
 end
