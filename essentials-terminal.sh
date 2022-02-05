@@ -1,1 +1,1 @@
-ruby ./src/bin/main.rb
+ruby $PWD/src/bin/main.rb
