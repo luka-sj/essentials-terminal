@@ -23,9 +23,11 @@ module Console
     #  print system version info
     #---------------------------------------------------------------------------
     def version
-      echo_p  "Console Version    : #{Env::VERSION}"
+      mk = Extensions::Versioning.comparative_markup(Env::VERSION, '1.0.0', '~')
+      echo_p  "Console Version    : #{mk}#{Env::VERSION}#{mk}"
       echo_p  "Essentials Version : #{Env.essentials_version}"
-      echo_p  "Ruby Version       : #{RUBY_VERSION}"
+      mk = Extensions::Versioning.comparative_markup(RUBY_VERSION, '3.0.0', '!')
+      echo_p  "Ruby Version       : #{mk}#{RUBY_VERSION}#{mk}"
       echo_p  "Platform           : #{Env::OS.get}"
       echo_p  '', 2
     end
@@ -86,7 +88,7 @@ module Console
       echo $ERROR_INFO.message, :red
       echo_p
       echo $ERROR_INFO.backtrace.join("\r\n"), :red
-      print "\r\n"
+      print "\r\n\r\n"
     end
     #  flush current line
     def flush(offset = 0)
