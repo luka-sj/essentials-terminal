@@ -19,11 +19,6 @@ class CommandMkdir < Commands::BaseCommand
     Console.echo("Successfully created directory ")
     Console.echo(options.first, :light_purple)
     Console.echo_p
-  rescue
-    Console.echo("Failed to create directory ")
-    Console.echo(options.first, :light_purple)
-    print $ERROR_INFO.backtrace.join("\r\n")
-    print "\r\n"
   end
   #-----------------------------------------------------------------------------
 end

@@ -57,9 +57,7 @@ module Env
           begin
             eval(script)
           rescue
-            print $ERROR_INFO.message + "\r\n"
-            print $ERROR_INFO.backtrace.join("\r\n")
-            print "\r\n"
+            Console.error
           end
         end
       end

@@ -81,6 +81,13 @@ module Console
     def echo_status(status)
       echo_msg_ln status ? markup_style('done', text: :green) : markup_style('error', text: :red)
     end
+    #  error output
+    def error
+      echo $ERROR_INFO.message, :red
+      echo_p
+      echo $ERROR_INFO.backtrace.join("\r\n"), :red
+      print "\r\n"
+    end
     #  flush current line
     def flush(offset = 0)
       STDOUT.erase_line(offset)
