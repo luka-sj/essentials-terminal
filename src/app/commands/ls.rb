@@ -25,9 +25,7 @@ class CommandLs < Commands::BaseCommand
   #  print out current working directory location
   #-----------------------------------------------------------------------------
   def echo_working_directory
-    Console.echo('Current working directory: ')
-    Console.echo(Env.working_dir, :light_purple)
-    Console.echo_p
+    Console.echo_p("Current working directory: '#{Env.working_dir}'")
   end
   #-----------------------------------------------------------------------------
   #  print out current working directory content

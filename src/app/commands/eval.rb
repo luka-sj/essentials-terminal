@@ -14,7 +14,8 @@ class CommandEval < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   def process
     output = eval(options.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
-    Console.echo_p(Console.syntax_highlighting(output.to_s))
+    print Console.syntax_highlighting(output.to_s)
+    print "\r\n"
   end
   #-----------------------------------------------------------------------------
 end

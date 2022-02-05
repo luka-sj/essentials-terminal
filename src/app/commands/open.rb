@@ -13,9 +13,7 @@ class CommandOpen < Commands::BaseCommand
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    Console.echo('Opening ')
-    Console.echo(options.first, :light_purple)
-    Console.echo_p(' ...')
+    Console.echo_p("Opening '#{options.first}' ...")
     Console.run(Env::OS.windows? ? 'start' : 'open', File.expand_path(options.first))
   end
   #-----------------------------------------------------------------------------
