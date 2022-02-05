@@ -16,13 +16,13 @@ class CommandOpen < Commands::BaseCommand
     Console.echo('Opening ')
     Console.echo(args.first, :light_purple)
     Console.echo_p(' ...')
-    Console.run(Env::OS.windows? ? 'start' : 'open', args.first)
+    Console.run(Env::OS.windows? ? 'start' : 'open', File.expand_path(args.first))
   end
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
-  def vaidate(*args)
-    return true if File.safe?(args.first) || args.first.url?
+  def validate(*args)
+    return true if File.safe?(File.expand_path(args.first)) || args.first.url?
 
     Console.echo_p("Unable to open: no such file '#{args.first}'.")
     false
