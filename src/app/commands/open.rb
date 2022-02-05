@@ -12,19 +12,19 @@ class CommandOpen < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
+  def process
     Console.echo('Opening ')
-    Console.echo(args.first, :light_purple)
+    Console.echo(options.first, :light_purple)
     Console.echo_p(' ...')
-    Console.run(Env::OS.windows? ? 'start' : 'open', File.expand_path(args.first))
+    Console.run(Env::OS.windows? ? 'start' : 'open', File.expand_path(options.first))
   end
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
-  def validate(*args)
-    return true if File.safe?(File.expand_path(args.first)) || args.first.url?
+  def validate
+    return true if File.safe?(File.expand_path(options.first)) || options.first.url?
 
-    Console.echo_p("Unable to open: no such file '#{args.first}'.")
+    Console.echo_p("Unable to open: no such file '#{options.first}'.")
     false
   end
   #-----------------------------------------------------------------------------

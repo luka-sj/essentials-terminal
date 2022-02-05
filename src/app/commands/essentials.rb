@@ -13,13 +13,13 @@ class CommandEssentials < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
+  def process
     #  check subcommand
-    case args.first
+    case options.first
     when 'load'
       Env.load_essentials_scripts
     when 'eval'
-      eval_essentials_code(args[1])
+      eval_essentials_code(options.second)
     end
   end
   #-----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class CommandEssentials < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
-  def validate(*_args)
+  def validate
     unless File.safe?("#{Env.working_dir}/Game.rxproj") && File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
       Console.echo('Unable to load project: ')
       Console.echo('no valid project found.', :red)

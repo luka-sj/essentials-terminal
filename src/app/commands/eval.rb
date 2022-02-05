@@ -12,8 +12,8 @@ class CommandEval < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
-    output = eval(args.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
+  def process
+    output = eval(options.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
     Console.echo_p(Console.syntax_highlighting(output.to_s))
   end
   #-----------------------------------------------------------------------------

@@ -13,17 +13,17 @@ class CommandMv < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
-    Dir.create(File.dirname(args[1]))
-    File.copy(args[0], args[1])
+  def process
+    Dir.create(File.dirname(options.second))
+    File.copy(options.first, options.second)
   end
   #-----------------------------------------------------------------------------
   private
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
-  def validate(*args)
-    validate_source(args[0]) && validate_target(args[1])
+  def validate
+    validate_source(options.first) && validate_target(options.second)
   end
 
   def validate_source(source)

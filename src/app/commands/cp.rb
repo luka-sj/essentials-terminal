@@ -13,17 +13,17 @@ class CommandCp < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
-    Dir.create(args[1].gsub('\\', '/').split('/')[0...-1].join('/'))
-    File.copy(args[0], args[1])
+  def process
+    Dir.create(options.second.gsub('\\', '/').split('/')[0...-1].join('/'))
+    File.copy(options.first, options.second)
   end
   #-----------------------------------------------------------------------------
   private
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
-  def validate(*args)
-    validate_source(args[0]) && validate_target(args[0], args[1])
+  def validate
+    validate_source(options.first) && validate_target(options.first, options.second)
   end
 
   def validate_source(source)

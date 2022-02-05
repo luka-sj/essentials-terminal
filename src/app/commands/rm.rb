@@ -13,13 +13,13 @@ class CommandRm < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
-    return if try_delete_directory(args.first)
+  def process
+    return if try_delete_directory(options.first)
 
-    return if try_delete_file(args.first)
+    return if try_delete_file(options.first)
 
     Console.echo('Command failed: unable to delete ')
-    Console.echo(args.first, :light_purple)
+    Console.echo(options.first, :light_purple)
     Console.echo_p('.')
   end
   #-----------------------------------------------------------------------------

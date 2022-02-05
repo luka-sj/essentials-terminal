@@ -73,9 +73,9 @@ module Commands
     #  run command
     #---------------------------------------------------------------------------
     def run(*args)
-      options = process_flags(*args)
+      process_options(*args)
 
-      process(*options) if Commands::Handler.validate(self, *options) && validate(*options)
+      process if Commands::Handler.validate(self, *@options) && validate
     rescue StandardError
       Console.echo_p("Unable to run command `#{self.get(:name)}`:")
       Console.echo_p($ERROR_INFO.message)
@@ -84,20 +84,20 @@ module Commands
     #---------------------------------------------------------------------------
     #  process input arguments and separate flags from command arguments
     #---------------------------------------------------------------------------
-    def process_flags(*args)
-      parsed = []
+    def process_options(*args)
+      @options = []
       @flags = []
       # go through each argument and categorize
       args.each do |arg|
         if arg.to_s.scan(/^-.*$/).count > 0
           @flags.push(arg[1..-1])
         else
-          parsed.push(arg)
+          @options.push(arg)
         end
       end
-      # return only command arguments
-      parsed
     end
+    #---------------------------------------------------------------------------
+    private
     #---------------------------------------------------------------------------
     #  check if flag has been passed to command
     #---------------------------------------------------------------------------
@@ -105,14 +105,30 @@ module Commands
       @flags.include?(name)
     end
     #---------------------------------------------------------------------------
-    private
     #  get class metadata attributes
+    #---------------------------------------------------------------------------
     def attributes
       self.class.attributes
     end
+    #---------------------------------------------------------------------------
     # private validation method
+    #---------------------------------------------------------------------------
     def validate(*args)
       true
+    end
+    #---------------------------------------------------------------------------
+    #  get command options
+    #---------------------------------------------------------------------------
+    def options
+      @options ||= []
+    end
+    #---------------------------------------------------------------------------
+    #  check first passed option
+    #---------------------------------------------------------------------------
+    def option?(option)
+      return false if !options || options.empty?
+
+      options.first == option
     end
     #---------------------------------------------------------------------------
   end

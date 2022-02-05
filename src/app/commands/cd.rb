@@ -12,8 +12,8 @@ class CommandCd < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
-  def process(*args)
-    @new_dir = args.first
+  def process
+    @new_dir = options.first
     @current_dir = Env.working_dir.split('/')
 
     handled   = try_back
