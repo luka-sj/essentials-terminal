@@ -9,13 +9,23 @@ module Core
       #-------------------------------------------------------------------------
       def gem(name, gem_alias = nil)
         gem_alias ||= name
-        gems.push([name, gem_alias])
+        gems.push([name, gem_alias]) unless gems.include?([name, gem_alias])
       end
       #-------------------------------------------------------------------------
       #  list all gem dependencies
       #-------------------------------------------------------------------------
       def gems
         @gems ||= []
+      end
+      #-------------------------------------------------------------------------
+      #  load all installed gems
+      #-------------------------------------------------------------------------
+      def load
+        gems.each do |gem|
+          require gem.second
+        rescue LoadError
+          Console.echo_p("Gem error: unable to load gem !#{gem.second}!.")
+        end
       end
       #-------------------------------------------------------------------------
       #  install all required gems
@@ -41,6 +51,7 @@ module Core
           Console.echo_status(status)
         end
         # print output to console
+        File.delete('nul') if File.exists?('nul')
         Console.echo_p
         if failed
           Console.echo_p('Some gems failed to install. See output above for more details.', 2)

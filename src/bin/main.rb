@@ -5,7 +5,7 @@ Dir[
   'src/bin/extensions/**/*.rb',
   'src/bin/console/**/*.rb',
   'src/config/**/*.rb'
-].each { |f| require "./#{f}" }
+].each { |f| require "./#{f}" }.each { |f| Env::CORE_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
 #  initial console output
 #-------------------------------------------------------------------------------
@@ -15,12 +15,7 @@ Console.setup
 #-------------------------------------------------------------------------------
 class Core::Gemfile
   install
-end
-
-Core::Gemfile.gems.each do |gem|
-  require gem[1]
-rescue LoadError
-  Console.echo_p("Gem error: unable to load gem !#{gem[1]}!.")
+  load
 end
 
 Env.run_before_init
@@ -30,7 +25,7 @@ Env.run_before_init
 Dir[
   'src/lib/**/*.rb',
   'src/app/**/*.rb'
-].each { |f| require "./#{f}" }
+].each { |f| require "./#{f}" }.each { |f| Env::APP_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
 #  start console loop
 #-------------------------------------------------------------------------------

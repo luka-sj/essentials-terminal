@@ -2,6 +2,9 @@
 #  Application environment module
 #===============================================================================
 module Env
+  CORE_DIRECTORIES ||= []
+  APP_DIRECTORIES  ||= []
+
   class << self
     #---------------------------------------------------------------------------
     #  get current working directory
@@ -73,6 +76,8 @@ module Env
     end
 
     def run_before_init
+      @initial_directory ||= Dir.pwd
+
       return unless @run_before_init
 
       @run_before_init.call
@@ -82,6 +87,10 @@ module Env
       return unless @run_after_init
 
       @run_after_init.call
+    end
+
+    def initial_directory
+      @initial_directory
     end
     #---------------------------------------------------------------------------
   end
@@ -109,7 +118,7 @@ module Env
       end
 
       def get
-        ['windows', 'mac', 'unix', 'linux'].each do |try_os|
+        ['windows', 'mac', 'linux', 'unix'].each do |try_os|
           return try_os.capitalize if send("#{try_os}?")
         end
 
