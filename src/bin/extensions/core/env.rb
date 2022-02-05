@@ -23,7 +23,7 @@ module Env
     #  sync current working directory
     #---------------------------------------------------------------------------
     def sync_working_dir
-      Dir.chdir(@working_dir)
+      Dir.chdir(working_dir)
     end
     #---------------------------------------------------------------------------
     #  define Essentials script binding
@@ -42,7 +42,7 @@ module Env
     #  initialize Essentials scripts
     #---------------------------------------------------------------------------
     def load_essentials_scripts
-      return false unless File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
+      return false unless File.exist?("#{Env.working_dir}/Data/Scripts.rxdata")
 
       @essentials_binding = Thread.new do
         scripts = File.open("#{Env.working_dir}/Data/Scripts.rxdata", 'rb') { |f| Marshal.load(f) }
@@ -56,9 +56,10 @@ module Env
           # components and eval runtime values
           begin
             eval(script)
-          rescue StandardError
-            Console.echo_p($ERROR_INFO.message)
-            Console.echo_p($ERROR_INFO.backtrace)
+          rescue
+            print $ERROR_INFO.message + "\r\n"
+            print $ERROR_INFO.backtrace.join("\r\n")
+            print "\r\n"
           end
         end
       end

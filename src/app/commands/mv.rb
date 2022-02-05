@@ -27,7 +27,7 @@ class CommandMv < Commands::BaseCommand
   end
 
   def validate_source(source)
-    return true if File.safe?(source)
+    return true if File.exist?(source)
 
     Console.echo('Unable to copy file: no such file ')
     Console.echo(source, :red)
@@ -37,7 +37,7 @@ class CommandMv < Commands::BaseCommand
 
   def validate_target(target)
     target = File.dirname(target)
-    return true if Dir.safe?(target)
+    return true if Dir.exist?(target)
 
     Console.echo('Unable to copy file: no such location ')
     Console.echo(target, :red)

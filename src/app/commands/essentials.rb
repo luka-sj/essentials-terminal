@@ -36,7 +36,7 @@ class CommandEssentials < Commands::BaseCommand
   #  vaidate command
   #-----------------------------------------------------------------------------
   def validate
-    unless File.safe?("#{Env.working_dir}/Game.rxproj") && File.safe?("#{Env.working_dir}/Data/Scripts.rxdata")
+    unless File.exist?("#{Env.working_dir}/Game.rxproj") && File.exist?("#{Env.working_dir}/Data/Scripts.rxdata")
       Console.echo('Unable to load project: ')
       Console.echo('no valid project found.', :red)
       Console.echo_p

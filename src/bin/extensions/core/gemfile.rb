@@ -51,7 +51,7 @@ module Core
           Console.echo_status(status)
         end
         # print output to console
-        File.delete('nul') if File.exists?('nul')
+        File.delete('nul') if File.exist?('nul')
         Console.echo_p
         if failed
           Console.echo_p('Some gems failed to install. See output above for more details.', 2)

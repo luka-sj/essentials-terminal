@@ -39,7 +39,7 @@ class CommandLs < Commands::BaseCommand
     #  iterate through each and print to console
     dirs.each do |dir|
       file_dir = dir.split('/').last
-      Console.echo_li(Dir.safe?(dir) ? "'#{file_dir}/'" : file_dir)
+      Console.echo_li(Dir.exist?(dir) ? "'#{file_dir}/'" : file_dir)
       Console.echo_p
     end
     Console.echo_p

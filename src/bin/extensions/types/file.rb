@@ -4,15 +4,6 @@
 class ::File
   class << self
     #---------------------------------------------------------------------------
-    #  Checks for existing file, gets around accents
-    #---------------------------------------------------------------------------
-    def safe?(file)
-      File.open(file, 'rb')
-      true
-    rescue Errno::ENOENT
-      false
-    end
-    #---------------------------------------------------------------------------
     #  Copies the source file to the destination path
     #---------------------------------------------------------------------------
     def copy(source, destination)
@@ -25,7 +16,7 @@ class ::File
           data << buffer
         end
       end
-      File.delete(destination) if File.safe?(destination)
+      File.delete(destination) if File.exist?(destination)
       File.open(destination, 'wb') do |f|
         f.write data
       end

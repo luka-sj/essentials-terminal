@@ -47,7 +47,7 @@ class CommandCd < Commands::BaseCommand
   def try_dir
     @new_dir = @current_dir.push(@new_dir).join('/') unless Dir.root_path?(@new_dir)
 
-    unless Dir.safe?(@new_dir)
+    unless Dir.exist?(@new_dir)
       Console.echo_p("Unable to change directory: no such directory '#{@new_dir}'.")
       return false
     end

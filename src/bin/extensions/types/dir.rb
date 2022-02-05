@@ -9,12 +9,15 @@ class ::Dir
     def get(dir, filters = '*', full = true)
       files = []
       filters = [filters] unless filters.is_a?(Array)
+
+      Env.sync_working_dir
       chdir(dir) do
         filters.each do |filter|
           glob(filter) { |f| files.push(full ? "#{dir}/#{f}" : f) }
         end
       end
 
+      Env.sync_working_dir
       files.sort
     end
     #---------------------------------------------------------------------------
@@ -26,7 +29,7 @@ class ::Dir
       subfolders = []
       get(dir, filters, full).each do |file|
         # engages in recursion to read the entire file tree
-        if safe?(file) # Is a directory
+        if exist?(file) # Is a directory
           subfolders += all(file, filters, full)
         else # Is a file
           files += [file]
@@ -34,17 +37,6 @@ class ::Dir
       end
       # returns all found files
       files + subfolders
-    end
-    #---------------------------------------------------------------------------
-    #  Checks for existing directory, gets around accents
-    #---------------------------------------------------------------------------
-    def safe?(dir)
-      return false unless FileTest.directory?(dir)
-
-      chdir(dir)
-      true
-    rescue Errno::ENOENT
-      false
     end
     #---------------------------------------------------------------------------
     #  Checks if directory is empty
@@ -62,7 +54,7 @@ class ::Dir
       path.split('/').each do |dir|
         full_string << "#{dir}/"
         # creates directories
-        mkdir(full_string) unless safe?(full_string)
+        mkdir(full_string) unless exist?(full_string)
       end
     end
     #---------------------------------------------------------------------------
@@ -72,7 +64,7 @@ class ::Dir
       # sets variables for starting
       dirs = get(dir, '*', true).each.map do |file|
         # engages in recursion to read the entire folder tree
-        all_dirs(file) if safe?(file)
+        all_dirs(file) if exist?(file)
       end
       # returns all found directories
       dirs.empty? ? [dir] : (dirs + [dir])

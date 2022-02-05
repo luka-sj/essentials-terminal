@@ -27,7 +27,7 @@ class CommandCp < Commands::BaseCommand
   end
 
   def validate_source(source)
-    return true if File.safe?(source)
+    return true if File.exist?(source)
 
     Console.echo('Unable to copy file: no such file ')
     Console.echo(source, :red)

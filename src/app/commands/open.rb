@@ -22,7 +22,7 @@ class CommandOpen < Commands::BaseCommand
   #  vaidate command
   #-----------------------------------------------------------------------------
   def validate
-    return true if File.safe?(File.expand_path(options.first)) || options.first.url?
+    return true if File.exist?(File.expand_path(options.first)) || options.first.url?
 
     Console.echo_p("Unable to open: no such file '#{options.first}'.")
     false

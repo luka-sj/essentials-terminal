@@ -14,33 +14,34 @@ class CommandRm < Commands::BaseCommand
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    return if try_delete_directory(options.first)
-
-    return if try_delete_file(options.first)
-
-    Console.echo('Command failed: unable to delete ')
-    Console.echo(options.first, :light_purple)
-    Console.echo_p('.')
+    if try_delete_directory || try_delete_file
+      Console.echo_p("Successfully deleted file '#{options.first}'.")
+    else
+      Console.echo_p("Unable to delete file '#{options.first}'.") unless Dir.exist?(options.first)
+    end
   end
   #-----------------------------------------------------------------------------
   private
   #-----------------------------------------------------------------------------
   #  try to delete directory
   #-----------------------------------------------------------------------------
-  def try_delete_directory(target)
-    return false unless Dir.safe?(target)
+  def try_delete_directory
+    return false unless Dir.exist?(options.first)
 
-    return false unless Dir.empty?(target) || flag?('f')
+    unless Dir.empty?(options.first) || flag?('f')
+      Console.echo_p("Command failed: unable to delete '#{options.first}'. Directory is not empty.")
+      return false
+    end
 
-    true if Dir.delete_all(target)
+    true if Dir.delete_all(options.first)
   end
   #-----------------------------------------------------------------------------
   #  try to delete file
   #-----------------------------------------------------------------------------
-  def try_delete_file(target)
-    return false if Dir.safe?(target)
+  def try_delete_file
+    return false if Dir.exist?(options.first)
 
-    true if File.delete(target)
+    true if File.delete(options.first)
   end
   #-----------------------------------------------------------------------------
 end

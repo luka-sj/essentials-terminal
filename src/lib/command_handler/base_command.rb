@@ -76,10 +76,11 @@ module Commands
       process_options(*args)
 
       process if Commands::Handler.validate(self, *@options) && validate
-    rescue StandardError
+    rescue
       Console.echo_p("Unable to run command `#{self.get(:name)}`:")
-      Console.echo_p($ERROR_INFO.message)
-      Console.echo_p($ERROR_INFO.backtrace)
+      print $ERROR_INFO.message + "\r\n"
+      print $ERROR_INFO.backtrace.join("\r\n")
+      print "\r\n"
     end
     #---------------------------------------------------------------------------
     #  process input arguments and separate flags from command arguments
