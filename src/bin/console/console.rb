@@ -25,6 +25,7 @@ module Console
     def version
       echo_p  "Console Version    : #{Env::VERSION}"
       echo_p  "Essentials Version : #{Env.essentials_version}"
+      echo_p  "Ruby Version       : #{RUBY_VERSION}"
       echo_p  "Platform           : #{Env::OS.get}"
       echo_p  '', 2
     end

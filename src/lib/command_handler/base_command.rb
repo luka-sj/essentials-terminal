@@ -13,13 +13,13 @@ module Commands
       #-------------------------------------------------------------------------
       #  set command name
       #-------------------------------------------------------------------------
-      def name(name)
+      def name(name = nil)
         attributes[:name] = name
       end
       #-------------------------------------------------------------------------
       #  set command description
       #-------------------------------------------------------------------------
-      def description(description)
+      def description(description = nil)
         attributes[:description] = description
       end
       #-------------------------------------------------------------------------
@@ -31,21 +31,21 @@ module Commands
       #-------------------------------------------------------------------------
       #  set required command arguments
       #-------------------------------------------------------------------------
-      def option(name, description = nil, modifier = :required)
+      def option(name = nil, description = nil, modifier = :required)
         attributes[:options] ||= {}
         attributes[:options][name] = [description, modifier]
       end
       #-------------------------------------------------------------------------
       #  set optional command flags
       #-------------------------------------------------------------------------
-      def flag(name, description = nil)
+      def flag(name = nil, description = nil)
         attributes[:flag] ||= {}
         attributes[:flag][name] = description
       end
       #-------------------------------------------------------------------------
       #  set command version
       #-------------------------------------------------------------------------
-      def version(version)
+      def version(version = nil)
         attributes[:version] = version
       end
       #-------------------------------------------------------------------------
@@ -90,7 +90,7 @@ module Commands
       # go through each argument and categorize
       args.each do |arg|
         if arg.to_s.scan(/^-.*$/).count > 0
-          @flags.push(arg[1..-1])
+          @flags.push(arg[1..-1].downcase)
         else
           @options.push(arg)
         end
