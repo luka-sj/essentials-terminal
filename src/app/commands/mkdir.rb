@@ -16,7 +16,7 @@ class CommandMkdir < Commands::BaseCommand
     Thread.new { Dir.create(options.first) }
     Env.sync_working_dir
 
-    Console.echo("Successfully created directory '#{options.first}'.")
+    Console.echo_p("Successfully created directory '#{options.first}'.")
   end
   #-----------------------------------------------------------------------------
 end

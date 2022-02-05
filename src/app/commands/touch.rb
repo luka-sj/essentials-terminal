@@ -16,7 +16,7 @@ class CommandTouch < Commands::BaseCommand
     Thread.new { File.open(options.first, 'w') { |f| f.write('') } }
     Env.sync_working_dir
 
-    Console.echo("Successfully created file '#{options.first}'.")
+    Console.echo_p("Successfully created file '#{options.first}'.")
   end
   #-----------------------------------------------------------------------------
 end
