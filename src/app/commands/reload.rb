@@ -1,5 +1,5 @@
 #===============================================================================
-#  Reload terminal output command
+#  Reload terminal command
 #===============================================================================
 class CommandReload < Commands::BaseCommand
   #  command metadata
@@ -13,12 +13,13 @@ class CommandReload < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   def process
     #  clear console
+    Env.set_working_dir(Env.initial_directory)
     Commands::Handler.try('clear')
     Console.setup
     Console.echo_p('Starting full system reload ...', 2)
     #  reload core scripts
     Env::CORE_DIRECTORIES.each do |f|
-      load "#{Env.initial_directory}/#{f}"
+      load f
       Console.echo_li("reloaded script '#{f}'")
       Console.echo_p
     end
@@ -29,7 +30,7 @@ class CommandReload < Commands::BaseCommand
     Env.run_before_init
     #  reload application scripts
     Env::APP_DIRECTORIES.each do |f|
-      load "#{Env.initial_directory}/#{f}"
+      load f
       Console.echo_li("reloaded script '#{f}'")
       Console.echo_p
     end

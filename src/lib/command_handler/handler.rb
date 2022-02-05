@@ -85,7 +85,7 @@ module Commands
       def try(string)
         # split input string into command and proper arguments
         input   = parse_input(string)
-        command = input.first.downcase
+        command = input.first&.downcase
         args    = input[1..-1]
         # try running command
         get_resource(command)&.new&.run(*args)

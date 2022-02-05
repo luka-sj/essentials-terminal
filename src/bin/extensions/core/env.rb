@@ -10,13 +10,20 @@ module Env
     #  get current working directory
     #---------------------------------------------------------------------------
     def working_dir
-      Dir.pwd
+      @working_dir ||= Dir.pwd
     end
     #---------------------------------------------------------------------------
     #  set current working directory
     #---------------------------------------------------------------------------
     def set_working_dir(dir)
+      @working_dir = dir
       Dir.chdir(dir)
+    end
+    #---------------------------------------------------------------------------
+    #  sync current working directory
+    #---------------------------------------------------------------------------
+    def sync_working_dir
+      Dir.chdir(@working_dir)
     end
     #---------------------------------------------------------------------------
     #  define Essentials script binding

@@ -58,12 +58,11 @@ class ::Dir
     def create(path)
       path.gsub!('\\', '/') # Windows compatibility
       # get path tree
-      dirs = path.split('/')
       full_string = ''
-      dirs.each do |dir|
+      path.split('/').each do |dir|
         full_string << "#{dir}/"
         # creates directories
-        mkdir(full) unless safe?(full)
+        mkdir(full_string) unless safe?(full_string)
       end
     end
     #---------------------------------------------------------------------------

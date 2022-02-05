@@ -1,5 +1,5 @@
 #===============================================================================
-#  Pry terminal output command
+#  Pry environment command
 #===============================================================================
 class CommandPry < Commands::BaseCommand
   #  command metadata

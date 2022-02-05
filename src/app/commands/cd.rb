@@ -16,9 +16,9 @@ class CommandCd < Commands::BaseCommand
     @new_dir = options.first
     @current_dir = Env.working_dir.split('/')
 
-    handled   = try_back
-    handled ||= try_home
-    handled ||= try_dir
+    handled = try_back
+    handled = try_home unless handled
+    handled = try_dir  unless handled
 
     Console.echo_p("Changed working directory to '#{Env.working_dir}'.") if handled
   end
@@ -39,7 +39,7 @@ class CommandCd < Commands::BaseCommand
   def try_home
     return false unless @new_dir == '~'
 
-    Env.set_working_dir(Dir.pwd) || true
+    Env.set_working_dir(Env.initial_directory) || true
   end
   #-----------------------------------------------------------------------------
   #  try going to directory
