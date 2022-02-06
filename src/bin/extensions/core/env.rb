@@ -32,6 +32,12 @@ module Env
       @essentials_binding
     end
     #---------------------------------------------------------------------------
+    #  check if in Essentials directory
+    #---------------------------------------------------------------------------
+    def essentials_dir?
+      File.exist?("#{working_dir}/Game.rxproj") && File.exist?("#{working_dir}/Data/Scripts.rxdata")
+    end
+    #---------------------------------------------------------------------------
     #  get Essentials version
     #  TODO: make this dynamic once the `essentials` command is live
     #---------------------------------------------------------------------------
