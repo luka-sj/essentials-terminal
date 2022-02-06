@@ -29,7 +29,7 @@ module Console
       mk = Extensions::Versioning.comparative_markup(RUBY_VERSION, '3.0.0', '!')
       echo_p  "Ruby Version       : #{mk}#{RUBY_VERSION}#{mk}"
       echo_p  "Platform           : #{Env::OS.get}"
-      echo_p  '', 2
+      echo_p  ''
     end
     #---------------------------------------------------------------------------
     #  render console pointer

@@ -17,6 +17,7 @@ class CommandHistory < Commands::BaseCommand
       Console.echo_li(cmd)
       Console.echo_p
     end
+    Console.echo_p
   end
   #-----------------------------------------------------------------------------
 end

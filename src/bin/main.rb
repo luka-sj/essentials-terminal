@@ -27,10 +27,7 @@ Dir[
   'src/app/**/*.rb'
 ].each { |f| require "./#{f}" }.each { |f| Env::APP_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
-#  start console loop
+#  start application
 #-------------------------------------------------------------------------------
 Env.run_after_init
-
-loop do
-  Console.await
-end
+Application.start
