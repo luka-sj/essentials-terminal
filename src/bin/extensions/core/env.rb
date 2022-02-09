@@ -6,6 +6,7 @@ module Env
   APP_DIRECTORIES  ||= []
 
   class << self
+    attr_accessor :initial_directory, :essentials_binding
     #---------------------------------------------------------------------------
     #  get current working directory
     #---------------------------------------------------------------------------
@@ -24,12 +25,6 @@ module Env
     #---------------------------------------------------------------------------
     def sync_working_dir
       Dir.chdir(working_dir)
-    end
-    #---------------------------------------------------------------------------
-    #  define Essentials script binding
-    #---------------------------------------------------------------------------
-    def essentials_binding
-      @essentials_binding
     end
     #---------------------------------------------------------------------------
     #  check if in Essentials directory
@@ -99,10 +94,6 @@ module Env
       return unless @run_after_init
 
       @run_after_init.call
-    end
-
-    def initial_directory
-      @initial_directory
     end
     #---------------------------------------------------------------------------
   end

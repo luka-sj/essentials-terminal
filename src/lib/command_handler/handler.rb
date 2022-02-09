@@ -76,7 +76,7 @@ module Commands
         return true if args.count >= required.count
 
         # print error message
-        Console.echo_p("Unable to run command: invalid number of arguments for command `#{command}`. Expected #{required.count} but got #{args.count}.")
+        Console.echo_p("Unable to run command: wrong number of arguments for command `#{command}`. Expected #{required.count} but got #{args.count}.")
         false
       end
       #-------------------------------------------------------------------------

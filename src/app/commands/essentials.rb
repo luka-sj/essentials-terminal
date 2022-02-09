@@ -55,14 +55,14 @@ class CommandEssentials < Commands::BaseCommand
     #  download Essentials to a local temporary file
     Console.echo_p("Downloading from repository 'https://luka-sj.com/res' instance of essentials@release:$latest$ ...", 2)
     Modules::HTTP.download("https://luka-sj.com/api/download/#{essentials_info['PACK']}", file: temp_file, progress_bar: true)
-    Console.echo_p("Download of instance essentials@release:latest $complete$.", 2)
+    Console.echo_p('Download of instance essentials@release:latest $complete$.', 2)
 
     #  extract the contents of the downloaded file
     File.extract(temp_file)
     Console.echo_p
 
     #  print final output message
-    Console.echo_p("Essentials $v#{19}$ has been $successfully$ installed.", 2)
+    Console.echo_p("Essentials $v#{essentials_info['VERSION']}$ has been $successfully$ installed.", 2)
   end
   #-----------------------------------------------------------------------------
   #  install specific Essentials plugin
@@ -90,7 +90,7 @@ class CommandEssentials < Commands::BaseCommand
     return true if ['init', 'eval'].include?(options.first)
 
     unless Env.essentials_dir?
-      Console.echo_p("Unable to load project: !no valid project found!.")
+      Console.echo_p('Unable to load project: !no valid project found!.')
       return false
     end
 

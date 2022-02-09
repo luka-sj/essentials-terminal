@@ -71,6 +71,9 @@ Style/ClassAndModuleChildren:
 Style/Lambda:
   Enabled: true
 
+Style/RescueStandardError:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 

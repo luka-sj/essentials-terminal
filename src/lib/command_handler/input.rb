@@ -12,7 +12,7 @@ module Commands
 
     KEYS_WINDOWS = {
       up: '224,72', down: '224,80', left: '224,75', right: '224,77',
-      enter: '', backspace: '8', delete: '224,83',
+      enter: '', backspace: '8', delete: '224,83'
     }
     #---------------------------------------------------------------------------
     class << self

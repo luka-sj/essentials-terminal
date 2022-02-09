@@ -15,7 +15,7 @@ module Modules
       #-------------------------------------------------------------------------
       def download(url, file: nil, use_ssl: true, progress_bar: false)
         #  delete file if already exists
-        #File.delete(file) if file && File.exist?(file)
+        File.delete(file) if file && File.exist?(file)
 
         #  start download thread
         download_thread = Thread.new do
@@ -43,9 +43,7 @@ module Modules
         if progress_bar
           bar_output = Console::ProgressBar.new(download_thread[:length])
           #  loop until thread is done
-          until download_thread[:done] do
-            bar_output.set(download_thread[:progress].to_f)
-          end
+          bar_output.set(download_thread[:progress].to_f) until download_thread[:done]
           #  finalize progress bar
           bar_output.done
         end
@@ -57,7 +55,7 @@ module Modules
       #-------------------------------------------------------------------------
       def get(url, use_ssl: true)
         thread = download(url, use_ssl: use_ssl)
-        until thread.join 1 do '' end
+        '' until thread.join 1
         File.delete('.nul') if File.exist?('.nul')
         thread[:body].first
       end

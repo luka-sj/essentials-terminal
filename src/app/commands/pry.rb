@@ -16,7 +16,7 @@ class CommandPry < Commands::BaseCommand
     #  opened a new interactive Ruby session
     #  from here, you have access to all system/environment variables or modules
     #  when done with the session, run the command `exit` to close the session
-    binding.pry
+    binding.pry # rubocop:disable Lint/Debugger
   end
   #-----------------------------------------------------------------------------
 end

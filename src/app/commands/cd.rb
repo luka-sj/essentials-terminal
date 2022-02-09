@@ -17,8 +17,8 @@ class CommandCd < Commands::BaseCommand
     @current_dir = Env.working_dir.split('/')
 
     handled = try_back
-    handled = try_home unless handled
-    handled = try_dir  unless handled
+    handled = try_home unless handled # rubocop:disable Style/OrAssignment
+    handled = try_dir  unless handled # rubocop:disable Style/OrAssignment
 
     Console.echo_p("Changed working directory to '#{Env.working_dir}'.") if handled
   end

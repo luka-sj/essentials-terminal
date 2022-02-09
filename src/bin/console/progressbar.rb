@@ -18,8 +18,8 @@ module Console
     #---------------------------------------------------------------------------
     def set(progress, flush = true)
       #  define required variables
-      percentage     = "#{progress.to_i}".rjust(3, ' ') + '% '
-      progress_chars = (@console_width * progress/100.0).to_i
+      percentage     = progress.to_i.to_s.rjust(3, ' ') + '% '
+      progress_chars = (@console_width * progress / 100.0).to_i
       blank_chars    = @console_width - progress_chars
       #  print to console
       STDOUT.goto_column(0) if flush

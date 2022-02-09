@@ -37,7 +37,7 @@ class CommandReload < Commands::BaseCommand
     Env.run_after_init
     #  print final message
     Console.echo_p
-    Console.echo_p("System reload $successful$.", 2)
+    Console.echo_p('System reload $successful$.', 2)
   end
   #-----------------------------------------------------------------------------
 end
