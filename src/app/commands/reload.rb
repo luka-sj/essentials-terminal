@@ -14,7 +14,6 @@ class CommandReload < Commands::BaseCommand
   def process
     #  clear console
     Env.set_working_dir(Env.initial_directory)
-    Commands::Handler.try('clear')
     Console.setup
     Console.echo_p('Starting full system reload ...', 2)
     #  reload core scripts

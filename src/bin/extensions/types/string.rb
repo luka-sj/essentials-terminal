@@ -27,4 +27,17 @@ class ::String
     scan(/^[+-]?([0-9]+)(?:\.[0-9]+)?$/).count > 1
   end
   #-----------------------------------------------------------------------------
+  #  interpolate `${}` values in string based on hash
+  #-----------------------------------------------------------------------------
+  def interpolate(options = {})
+    replace_hash = {}.tap do |h|
+      options.keys.each do |key|
+        h["${#{key}}"] = options[key]
+      end
+    end
+
+    regex_values = Regexp.new(replace_hash.keys.map { |x| Regexp.escape(x) }.join('|'))
+    gsub(regex_values, replace_hash)
+  end
+  #-----------------------------------------------------------------------------
 end

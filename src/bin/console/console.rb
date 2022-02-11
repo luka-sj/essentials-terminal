@@ -13,8 +13,9 @@ module Console
     #  print initial system setup info
     #---------------------------------------------------------------------------
     def setup
+      run(Env::OS.windows? ? 'cls' : 'clear')
       echo    '============================================', :brown
-      echo_h1 'Essentials Terminal', false
+      echo_h1 'Ruby Terminal', false
       echo    '============================================', :brown
       echo_p  ''
       version
