@@ -16,6 +16,9 @@ Layout/LineLength:
     - '\A#'
     - '^\/.*\/$'
 
+Layout/EndOfLine:
+  Enabled: false
+
 Style/GlobalVars:
   AllowedVariables:
     - $redis

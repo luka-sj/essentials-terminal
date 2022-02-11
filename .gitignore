@@ -1,5 +1,7 @@
 *.gem
 *.rbc
+.SynologyWorkingDirectory
+.DS_Store
 nul
 /.config
 /coverage/
@@ -11,6 +13,9 @@ nul
 /test/version_tmp/
 /tmp/
 /src/tmp/
+/src/app/commands/private/
+/src/app/scripts/
+/src/config/private.rb
 
 # Ignore Byebug command history file.
 .byebug_history
