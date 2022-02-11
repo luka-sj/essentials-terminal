@@ -6,17 +6,17 @@ class CommandTouch < Commands::BaseCommand
   name        'touch'
   version     '1.0.0'
   description 'Creates new empty file'
-  option      'file', 'Specified file path to create'
+  argument    'file', 'Specified file path to create'
 
   register
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    Thread.new { File.open(options.first, 'w') { |f| f.write('') } }
+    Thread.new { File.open(arguments.first, 'w') { |f| f.write('') } }
     Env.sync_working_dir
 
-    Console.echo_p("Successfully created file '#{options.first}'.")
+    Console.echo_p("Successfully created file '#{arguments.first}'.")
   end
   #-----------------------------------------------------------------------------
 end

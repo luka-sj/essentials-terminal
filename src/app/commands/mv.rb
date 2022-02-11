@@ -6,16 +6,16 @@ class CommandMv < Commands::BaseCommand
   name        'mv'
   version     '1.0.0'
   description 'Moves specified file or directory to new location'
-  option      'source', 'Specified file to be copied'
-  option      'target', 'Location for the newly copied file'
+  argument    'source', 'Specified file to be copied'
+  argument    'target', 'Location for the newly copied file'
 
   register
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    Dir.create(File.dirname(options.second))
-    File.copy(options.first, options.second)
+    Dir.create(File.dirname(arguments.second))
+    File.copy(arguments.first, arguments.second)
   end
   #-----------------------------------------------------------------------------
   private
@@ -23,7 +23,7 @@ class CommandMv < Commands::BaseCommand
   #  vaidate command
   #-----------------------------------------------------------------------------
   def validate
-    validate_source(options.first) && validate_target(options.second)
+    validate_source(arguments.first) && validate_target(arguments.second)
   end
 
   def validate_source(source)

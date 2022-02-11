@@ -6,14 +6,14 @@ class CommandEval < Commands::BaseCommand
   name        'eval'
   version     '1.0.0'
   description 'Run Ruby code on the fly'
-  option      'code', 'String containing code to run'
+  argument    'code', 'String containing code to run'
 
   register
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    output = eval(options.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
+    output = eval(arguments.first, TOPLEVEL_BINDING, __FILE__, __LINE__)
     print Console.syntax_highlighting(output.to_s)
     print "\r\n"
   end

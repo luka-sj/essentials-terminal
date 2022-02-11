@@ -6,14 +6,14 @@ class CommandCd < Commands::BaseCommand
   name        'cd'
   version     '1.0.0'
   description 'Change current working directory'
-  option      'directory', 'Change to specified directory name'
+  argument    'directory', 'Change to specified directory name'
 
   register
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    @new_dir = options.first
+    @new_dir = arguments.first
     @current_dir = Env.working_dir.split('/')
 
     handled = try_back

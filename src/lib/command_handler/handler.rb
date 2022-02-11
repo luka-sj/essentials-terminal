@@ -64,19 +64,19 @@ module Commands
       #-------------------------------------------------------------------------
       #  validate command parameters
       #-------------------------------------------------------------------------
-      def validate(resource, *args)
+      def validate(resource, args_count)
         # get command attributes
-        options = resource.get(:options)
+        arguments = resource.get(:arguments)
         command = resource.get(:name)
         # run command if no additional validation is required
-        return true unless options
+        return true unless arguments
 
-        required = options.select { |_k, v| v[1] == :required }.map { |k, _v| k }
+        required = arguments.select { |_k, v| v[1] == :required }.map { |k, _v| k }
 
-        return true if args.count >= required.count
+        return true if args_count >= required.count
 
         # print error message
-        Console.echo_p("Unable to run command: wrong number of arguments for command `#{command}`. Expected #{required.count} but got #{args.count}.")
+        Console.echo_p("Unable to run command: wrong number of arguments for command `#{command}`. Expected #{required.count} but got #{args_count}.")
         false
       end
       #-------------------------------------------------------------------------

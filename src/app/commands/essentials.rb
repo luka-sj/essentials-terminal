@@ -8,9 +8,9 @@ class CommandEssentials < Commands::BaseCommand
   name        'essentials'
   version     '1.0.0'
   description 'Run essentials environment'
-  option      'load', 'Load Essentials content from current working directory'
-  option      'eval', 'Run code from the Essentials environment', :alternative
-  option      'pack', 'Essentials plugin to install', :load
+  argument    'load', 'Load Essentials content from current working directory'
+  argument    'eval', 'Run code from the Essentials environment', :alternative
+  argument    'pack', 'Essentials plugin to install', :load
 
   register
   #-----------------------------------------------------------------------------
@@ -18,11 +18,11 @@ class CommandEssentials < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   def process
     #  check subcommand
-    case options.first
+    case arguments.first
     when 'load'
       Env.load_essentials_scripts
     when 'eval'
-      eval_essentials_code(options.second)
+      eval_essentials_code(arguments.second)
     when 'init'
       init_essentials_project
     when 'install'
@@ -69,7 +69,7 @@ class CommandEssentials < Commands::BaseCommand
   #-----------------------------------------------------------------------------
   def install_essentials_pack
     #  validate input argument
-    pack = options.second.nil? || options.second.empty? ? 'nil' : options.second
+    pack = arguments.second.nil? || arguments.second.empty? ? 'nil' : arguments.second
     return Console.echo_p("Invalid plugin name given: received !#{pack}!.") if pack == 'nil'
 
     #  validate pack content
@@ -81,13 +81,13 @@ class CommandEssentials < Commands::BaseCommand
   #  get specified plugin info
   #-----------------------------------------------------------------------------
   def get_pack_info
-    JSON.parse(Modules::HTTP.get("https://luka-sj.com/api/pack/#{options.second}"))
+    JSON.parse(Modules::HTTP.get("https://luka-sj.com/api/pack/#{arguments.second}"))
   end
   #-----------------------------------------------------------------------------
   #  vaidate command
   #-----------------------------------------------------------------------------
   def validate
-    return true if ['init', 'eval'].include?(options.first)
+    return true if ['init', 'eval'].include?(arguments.first)
 
     unless Env.essentials_dir?
       Console.echo_p('Unable to load project: !no valid project found!.')

@@ -6,15 +6,15 @@ class CommandLs < Commands::BaseCommand
   name        'ls'
   version     '1.0.0'
   description 'Displays current working directory'
-  flag        'l', 'List all files and directories in working directory'
+  option      'l', 'List all files and directories in working directory'
 
   register
   #-----------------------------------------------------------------------------
   #  process command action
   #-----------------------------------------------------------------------------
   def process
-    #  show folder content if flag is specified
-    return echo_working_directory_content if flag?('l')
+    #  show folder content if option is specified
+    return echo_working_directory_content if option?('l')
 
     #  return working directory
     echo_working_directory

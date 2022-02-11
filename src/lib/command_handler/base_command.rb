@@ -31,16 +31,23 @@ module Commands
       #-------------------------------------------------------------------------
       #  set required command arguments
       #-------------------------------------------------------------------------
-      def option(name = nil, description = nil, modifier = :required)
+      def argument(name = nil, description = nil, modifier = :required)
+        attributes[:arguments] ||= {}
+        attributes[:arguments][name] = [description, modifier]
+      end
+      #-------------------------------------------------------------------------
+      #  set optional command options
+      #-------------------------------------------------------------------------
+      def option(name = nil, description = nil)
         attributes[:options] ||= {}
-        attributes[:options][name] = [description, modifier]
+        attributes[:options][name] = description
       end
       #-------------------------------------------------------------------------
       #  set optional command flags
       #-------------------------------------------------------------------------
       def flag(name = nil, description = nil)
-        attributes[:flag] ||= {}
-        attributes[:flag][name] = description
+        attributes[:flags] ||= {}
+        attributes[:flags][name] = description
       end
       #-------------------------------------------------------------------------
       #  set command version
@@ -73,35 +80,52 @@ module Commands
     #  run command
     #---------------------------------------------------------------------------
     def run(*args)
-      process_options(*args)
+      process_arguments(*args)
 
-      process if Commands::Handler.validate(self, *@options) && validate
+      process if Commands::Handler.validate(self, argument_count) && validate
     rescue
       Console.echo_p("Unable to run command `#{get(:name)}`:")
       Console.error
     end
     #---------------------------------------------------------------------------
-    #  process input arguments and separate flags from command arguments
+    #  process input arguments and separate options from command arguments
     #---------------------------------------------------------------------------
-    def process_options(*args)
-      @options = []
-      @flags = []
+    def process_arguments(*args)
+      @arguments        = []
+      @options          = []
+      @option_arguments = {}
+      @flags            = []
+      key               = nil
       # go through each argument and categorize
       args.each do |arg|
-        if arg.to_s.scan(/^-.*$/).count > 0
-          @flags.push(arg[1..-1].downcase)
+        if arg.to_s.scan(/^--.*$/).count > 0
+          @flags.push(arg[2..-1].downcase)
+        elsif arg.to_s.scan(/^-.*$/).count > 0
+          @options.push(arg[1..-1].downcase)
+          key = arg[1..-1].downcase
         else
-          @options.push(arg)
+          if key
+            @option_arguments[key] = arg
+            key                    = nil
+          else
+            @arguments.push(arg)
+          end
         end
       end
     end
     #---------------------------------------------------------------------------
     private
     #---------------------------------------------------------------------------
+    #  check if option has been passed to command
+    #---------------------------------------------------------------------------
+    def option?(name)
+      @options.include?(name.downcase)
+    end
+    #---------------------------------------------------------------------------
     #  check if flag has been passed to command
     #---------------------------------------------------------------------------
     def flag?(name)
-      @flags.include?(name)
+      @flags.include?(name.downcase)
     end
     #---------------------------------------------------------------------------
     #  get class metadata attributes
@@ -116,18 +140,32 @@ module Commands
       true
     end
     #---------------------------------------------------------------------------
-    #  get command options
+    #  get command arguments
     #---------------------------------------------------------------------------
-    def options
-      @options ||= []
+    def arguments
+      @arguments ||= []
     end
     #---------------------------------------------------------------------------
-    #  check first passed option
+    #  get option argument
     #---------------------------------------------------------------------------
-    def option?(option)
-      return false if !options || options.empty?
+    def option_argument(option)
+      return nil unless option?(option.downcase)
 
-      options.first == option
+      @option_arguments[option.downcase]
+    end
+    #---------------------------------------------------------------------------
+    #  check first passed argument
+    #---------------------------------------------------------------------------
+    def argument?(argument)
+      return false if !arguments || arguments.empty?
+
+      arguments.first == argument
+    end
+    #---------------------------------------------------------------------------
+    #  get number of entered arguments
+    #---------------------------------------------------------------------------
+    def argument_count
+      @arguments.count + @option_arguments.keys.count
     end
     #---------------------------------------------------------------------------
   end
