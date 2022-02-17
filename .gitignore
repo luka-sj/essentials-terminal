@@ -16,6 +16,7 @@ nul
 /src/app/commands/private/
 /src/app/scripts/
 /src/config/private.rb
+/src/lib/tasks/private/
 *desktop.ini
 
 # Ignore Byebug command history file.

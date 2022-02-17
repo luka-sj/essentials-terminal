@@ -40,32 +40,6 @@ module Env
       '19.1'
     end
     #---------------------------------------------------------------------------
-    #  initialize Essentials scripts
-    #---------------------------------------------------------------------------
-    def load_essentials_scripts
-      return false unless File.exist?("#{Env.working_dir}/Data/Scripts.rxdata")
-
-      @essentials_binding = Thread.new do
-        scripts = File.open("#{Env.working_dir}/Data/Scripts.rxdata", 'rb') { |f| Marshal.load(f) }
-        scripts.each do |collection|
-          _, title, script = collection
-          script = Zlib::Inflate.inflate(script).delete("\r").gsub("\t", '  ')
-
-          next if script.empty? || title.downcase == 'main'
-
-          # TODO: incomplete - needs to add functionality to initialize game
-          # components and eval runtime values
-          begin
-            eval(script)
-          rescue
-            Console.error
-          end
-        end
-      end
-
-      @essentials_loaded = true
-    end
-    #---------------------------------------------------------------------------
     #  check if Essentials scripts have been loaded
     #---------------------------------------------------------------------------
     def essentials_loaded?
