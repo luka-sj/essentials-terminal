@@ -56,5 +56,24 @@ class ::File
       delete(file)
     end
     #---------------------------------------------------------------------------
+    #  Compress files into a zip file
+    #---------------------------------------------------------------------------
+    def compress(file, dir, files)
+      File.delete(file) if File.exist?(file)
+      Console.echo_p("Compressing contents into '#{file}' ...", 2)
+      Zip::File.open(file, create: true) do |zipfile|
+        #  create progress bar
+        progress_bar = Console::ProgressBar.new(files.count)
+        progress_bar.set(0)
+        #  iterate through files to zip
+        files.each_with_index do |filename, i|
+          zipfile.add(filename, File.join(dir, filename))
+          progress = (i + 1).quo(zip.count) * 100
+          progress_bar.set(progress)
+        end
+        progress_bar.done
+      end
+    end
+    #---------------------------------------------------------------------------
   end
 end
