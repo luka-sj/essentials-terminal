@@ -2,8 +2,8 @@
 #  load system level scripts first
 #-------------------------------------------------------------------------------
 Dir[
-  'src/bin/extensions/**/*.rb',
-  'src/bin/console/**/*.rb',
+  'src/core/extensions/**/*.rb',
+  'src/core/console/**/*.rb',
   'src/config/**/*.rb'
 ].each { |f| require "./#{f}" }.each { |f| Env::CORE_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
