@@ -6,7 +6,7 @@ module Psych
     #---------------------------------------------------------------------------
     #  parse .yml into a Ruby hash
     #---------------------------------------------------------------------------
-    def parse_hash(file)
+    def to_hash(file)
       yaml = ::YAML.load_file(file)
       erb  = ::ERB.new(yaml.inspect)
 

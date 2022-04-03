@@ -3,6 +3,7 @@
 #===============================================================================
 require 'io/console'
 require 'io/wait'
+require 'open3'
 
 module Console
   #-----------------------------------------------------------------------------
@@ -100,6 +101,19 @@ module Console
     #  run command
     def run(command, *args)
       system command, *args
+    end
+
+    def run_cmd(command, *args)
+      cmd = Array(command) + args
+      stdout, _stderr, status = Open3.capture3(cmd.join(' '))
+
+      unless status.success?
+        echo_p "Failed to run command !#{cmd.join(' ')}!:"
+        echo stdout, :red
+        return false
+      end
+
+      true
     end
     #---------------------------------------------------------------------------
     #  record input
