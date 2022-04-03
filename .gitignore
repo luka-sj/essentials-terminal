@@ -18,6 +18,8 @@ nul
 /src/config/private.rb
 /src/lib/tasks/private/
 *desktop.ini
+.env
+/**/*.env
 
 # Ignore Byebug command history file.
 .byebug_history
