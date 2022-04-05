@@ -26,12 +26,11 @@ module Console
     #---------------------------------------------------------------------------
     def version
       mk = Extensions::Versioning.comparative_markup(Env::VERSION, '1.0.0', '~')
-      echo_p  "Console Version    : #{mk}#{Env::VERSION}#{mk}"
-      echo_p  "Essentials Version : #{Env.essentials_version}"
+      echo_p "Console Version    : #{mk}#{Env::VERSION}#{mk}"
       mk = Extensions::Versioning.comparative_markup(RUBY_VERSION, '3.0.0', '!')
-      echo_p  "Ruby Version       : #{mk}#{RUBY_VERSION}#{mk}"
-      echo_p  "Platform           : #{Env::OS.get}"
-      echo_p  ''
+      echo_p "Ruby Version       : #{mk}#{RUBY_VERSION}#{mk}"
+      echo_p "Platform           : #{Env::OS.get}"
+      echo_p ''
     end
     #---------------------------------------------------------------------------
     #  render console pointer

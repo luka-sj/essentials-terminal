@@ -2,9 +2,9 @@
 #  load system level scripts first
 #-------------------------------------------------------------------------------
 Dir[
-  'src/core/extensions/**/*.rb',
-  'src/core/console/**/*.rb',
-  'src/config/**/*.rb'
+  'core/extensions/**/*.rb',
+  'core/console/**/*.rb',
+  'config/**/*.rb'
 ].each { |f| require "./#{f}" }.each { |f| Env::CORE_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
 #  initial console output
@@ -23,8 +23,8 @@ Env.run_before_init
 #  load required directories and files on start
 #-------------------------------------------------------------------------------
 Dir[
-  'src/lib/**/*.rb',
-  'src/app/**/*.rb'
+  'lib/**/*.rb',
+  'app/**/*.rb'
 ].each { |f| require "./#{f}" }.each { |f| Env::APP_DIRECTORIES << f }
 #-------------------------------------------------------------------------------
 #  start application

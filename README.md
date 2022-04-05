@@ -21,4 +21,4 @@ Using the `cd` command, navigate to a directory containing your Essentials proje
 This terminal is not actually running of your local CLI instance, but instead is wrapped in a Ruby layer to handle all the logic.
 Hence not all terminal commands you may be familiar with are available. In fact, no traditional commands are available unless specifically recreated for the purposes of this application.
 
-All the scripts for the various commands live in the `src/app/commands` directory.
+All the scripts for the various commands live in the `app/commands` directory.

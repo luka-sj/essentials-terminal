@@ -12,11 +12,10 @@ nul
 /test/tmp/
 /test/version_tmp/
 /tmp/
-/src/tmp/
-/src/app/commands/private/
-/src/app/scripts/
-/src/config/private.rb
-/src/lib/tasks/private/
+/app/commands/private/
+/app/scripts/
+/config/private.rb
+/lib/tasks/private/
 *desktop.ini
 .env
 /**/*.env
